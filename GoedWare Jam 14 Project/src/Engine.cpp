@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "NoiseBar.h"
 #include "Player.h"
+#include "Timer.h"
 #include <unordered_map>
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
@@ -33,6 +34,8 @@ void Engine::RunEngine()
     std::unordered_map<std::string, GameObject> sprites;
     std::unordered_map<std::string, NoiseBar> noiseBars;
 
+    Timer timer;
+
     sprites["Player"].InitializeSprite("Sprite1");
     sprites["Player2"].InitializeSprite("Sprite2");
 
@@ -43,6 +46,8 @@ void Engine::RunEngine()
 
     noiseBars[fullTag].InitializeSprite("FullNoiseBar");
     noiseBars[currentTag].InitializeCurrentBar(currentTag);
+
+    timer.InitializeTimer();
 
     Window::Instance()->SetFPS();
 
@@ -68,6 +73,8 @@ void Engine::RunEngine()
 
         noiseBars[fullTag].DrawSprite(BLACK);
         noiseBars[currentTag].DrawSprite(RED);
+
+        timer.RenderTimer(BLACK);
 
         EndDrawing();
     }

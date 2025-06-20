@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Text>
+  <TextInfo>
+
+    <TimerText minutes = "5" seconds = "1" textX = "10" textY = "100" fontSize = "30">
+    </TimerText>
+
+</TextInfo>
+
+</Text>
