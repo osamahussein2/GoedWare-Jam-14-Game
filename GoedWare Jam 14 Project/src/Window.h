@@ -16,11 +16,18 @@ public:
 
 	void InitializeRaylibWindow();
 	void SetFPS();
+	
+	int GetWindowWidth() const { return windowWidth; }
+	int GetWindowHeight() const { return windowHeight; }
+
+	const float GetDeltaTime();
 
 private:
 	rapidxml::file<> windowFile;
 	rapidxml::xml_document<> document;
 	rapidxml::xml_node<>* rootNode;
+
+	int windowWidth, windowHeight;
 
 	static std::shared_ptr<Window> windowInstance;
 };

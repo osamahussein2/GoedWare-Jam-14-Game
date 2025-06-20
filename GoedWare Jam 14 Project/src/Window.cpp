@@ -2,7 +2,7 @@
 
 std::shared_ptr<Window> Window::windowInstance = nullptr;
 
-Window::Window() : windowFile("XML files/Window.xml"), rootNode()
+Window::Window() : windowFile("XML files/Window.xml"), rootNode(), windowWidth(), windowHeight()
 {
 }
 
@@ -36,6 +36,9 @@ void Window::InitializeRaylibWindow()
             atoi(fileNode->first_attribute("height")->value()), // height
             fileNode->first_attribute("name")->value() // window name
         );
+
+        windowWidth = atoi(fileNode->first_attribute("width")->value());
+        windowHeight = atoi(fileNode->first_attribute("height")->value());
     }
 }
 
@@ -50,4 +53,9 @@ void Window::SetFPS()
             SetTargetFPS(atoi(fileNode2->first_attribute("frameRate")->value()));
         }
     }
+}
+
+const float Window::GetDeltaTime()
+{
+    return GetFrameTime();
 }

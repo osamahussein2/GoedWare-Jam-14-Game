@@ -1,0 +1,45 @@
+#include "Sprite.h"
+
+Sprite::Sprite() : spriteFile("XML files/Sprite.xml"), rootNode(), position(), rectangle(), texture()
+{
+
+}
+
+Sprite::~Sprite()
+{
+}
+
+void Sprite::InitializeSprite(const char* rootChildNode_, const char* childNode2_)
+{
+    document.parse<0>(spriteFile.data());
+
+    rootNode = document.first_node("Sprite");
+
+    for (rapidxml::xml_node<>* fileNode = rootNode->first_node("SpriteInfo"); fileNode;
+        fileNode = fileNode->next_sibling())
+    {
+        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_); fileNode2;
+            fileNode2 = fileNode->next_sibling())
+        {
+            texture = LoadTexture(fileNode2->first_attribute("spritePath")->value());
+
+            rectangle.width = static_cast<float>(texture.width);
+            rectangle.height = static_cast<float>(texture.height);
+            rectangle.x = 0.0f;
+            rectangle.y = 0.0f;
+
+            position = Vector2{ static_cast<float>(atof(fileNode2->first_attribute("posX")->value())),
+                static_cast<float>(atof(fileNode2->first_attribute("posY")->value()))};
+        }
+    }
+}
+
+void Sprite::DrawSprite(Color color_)
+{
+    DrawTextureRec(texture, rectangle, position, color_);
+}
+
+void Sprite::UnloadSprite()
+{
+    UnloadTexture(texture);
+}

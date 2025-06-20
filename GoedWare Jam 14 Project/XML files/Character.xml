@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Character>
+
+  <CharacterInfo>
+    
+    <Player spritePath = "res/.png" totalFrames = "1" posX = "0.0f" posY = "0.0f">
+    </Player>
+    
+  </CharacterInfo>
+  
+</Character>
