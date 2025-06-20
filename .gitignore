@@ -30,3 +30,14 @@
 *.exe
 *.out
 *.app
+
+# Additional file extensions
+.vs/
+.vscode/
+*.user
+
+bin/
+
+*.sln
+*.vcxproj
+*.vcxproj.filters
