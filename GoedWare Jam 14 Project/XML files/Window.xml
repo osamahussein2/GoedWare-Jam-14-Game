@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Window>
+
+  <WindowInfo width = "1000" height = "800" name = "GoedWare Game Jam 14">
+
+    <SetFPS frameRate = "60">
+    </SetFPS>
+
+  </WindowInfo>
+  
+</Window>
