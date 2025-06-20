@@ -1,17 +1,17 @@
-#ifndef SPRITE_H
-#define SPRITE_H
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
 
 #include <raylib.h>
 #include <rapidxml.hpp>
 #include <rapidxml_utils.hpp>
 
-class Sprite
+class GameObject
 {
 public:
-	Sprite();
-	~Sprite();
+	GameObject();
+	~GameObject();
 
-	void InitializeSprite(const char* rootChildNode_, const char* childNode2_);
+	void InitializeSprite(const char* childNode2_);
 	void DrawSprite(Color color_);
 	void UnloadSprite();
 

@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Window.h"
-#include "Sprite.h"
+#include "GameObject.h"
+#include "NoiseBar.h"
 #include "Player.h"
 #include <unordered_map>
 
@@ -29,12 +30,19 @@ void Engine::RunEngine()
 {
     Window::Instance()->InitializeRaylibWindow();
 
-    std::unordered_map<std::string, Sprite> sprites;
+    std::unordered_map<std::string, GameObject> sprites;
+    std::unordered_map<std::string, NoiseBar> noiseBars;
 
-    sprites["Player"].InitializeSprite("SpriteInfo", "Sprite1");
-    sprites["Player2"].InitializeSprite("SpriteInfo", "Sprite2");
+    sprites["Player"].InitializeSprite("Sprite1");
+    sprites["Player2"].InitializeSprite("Sprite2");
 
     Player::Instance()->InitializeCharacter();
+
+    const std::string fullTag = "Full";
+    const std::string currentTag = "Current";
+
+    noiseBars[fullTag].InitializeSprite("FullNoiseBar");
+    noiseBars[currentTag].InitializeCurrentBar(currentTag);
 
     Window::Instance()->SetFPS();
 
@@ -54,6 +62,12 @@ void Engine::RunEngine()
         sprites["Player2"].DrawSprite(WHITE);
 
         Player::Instance()->DrawCharacter();
+
+        noiseBars[fullTag].UpdateCurrentNoise(fullTag);
+        noiseBars[currentTag].UpdateCurrentNoise(currentTag);
+
+        noiseBars[fullTag].DrawSprite(BLACK);
+        noiseBars[currentTag].DrawSprite(RED);
 
         EndDrawing();
     }

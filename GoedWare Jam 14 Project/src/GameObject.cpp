@@ -1,15 +1,15 @@
-#include "Sprite.h"
+#include "GameObject.h"
 
-Sprite::Sprite() : spriteFile("XML files/Sprite.xml"), rootNode(), position(), rectangle(), texture()
+GameObject::GameObject() : spriteFile("XML files/GameObject.xml"), rootNode(), position(), rectangle(), texture()
 {
 
 }
 
-Sprite::~Sprite()
+GameObject::~GameObject()
 {
 }
 
-void Sprite::InitializeSprite(const char* rootChildNode_, const char* childNode2_)
+void GameObject::InitializeSprite(const char* childNode2_)
 {
     document.parse<0>(spriteFile.data());
 
@@ -34,12 +34,12 @@ void Sprite::InitializeSprite(const char* rootChildNode_, const char* childNode2
     }
 }
 
-void Sprite::DrawSprite(Color color_)
+void GameObject::DrawSprite(Color color_)
 {
     DrawTextureRec(texture, rectangle, position, color_);
 }
 
-void Sprite::UnloadSprite()
+void GameObject::UnloadSprite()
 {
     UnloadTexture(texture);
 }
