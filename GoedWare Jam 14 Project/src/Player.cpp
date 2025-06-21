@@ -3,7 +3,10 @@
 
 std::shared_ptr<Player> Player::playerInstance = nullptr;
 
-Player::Player()
+const std::string fullTag = "Full";
+const std::string currentTag = "Current";
+
+Player::Player() : lightOn(false)
 {
 }
 
@@ -51,6 +54,11 @@ void Player::InitializeCharacter()
     camera.offset = { Window::Instance()->GetWindowWidth() / 2.25f, Window::Instance()->GetWindowHeight() / 2.0f };
     camera.zoom = 1.0f;
     camera.rotation = 0.0f;
+
+    center = { position.x + 40.0f, position.y + 10.0f };
+
+    noiseBars[fullTag].InitializeSprite("FullNoiseBar");
+    noiseBars[currentTag].InitializeCurrentBar(currentTag);
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -76,10 +84,52 @@ void Player::DrawCharacter()
     camera.target = { position.x, position.y };
 
     Vector2 velocity{};
-    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP)) velocity.y = -100.0f;
-    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN)) velocity.y = 100.0f;
-    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) velocity.x = -100.0f;
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) velocity.x = 100.0f;
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+    {
+        if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
+        velocity.y = -100.0f;
+    }
+    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+    {
+        if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
+        velocity.y = 100.0f;
+    }
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+    {
+        if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
+        velocity.x = -100.0f;
+    }
+    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+    {
+        if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
+        velocity.x = 100.0f;
+    }
+
+    else if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&
+        !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT))
+    {
+        if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
+    }
+
+    if (IsKeyPressed(KEY_F)) lightOn = !lightOn;
+
+    // If light isn't on, draw a black rectangle to give the illusion that lights are off
+    if (!lightOn)
+    {
+        if (velocity.x == 0.0f && velocity.y == 0.0f)
+        {
+            if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
+        }
+    }
+
+    // But if light is on, draw a slightly transparent black rectangle to give the illusion that lights are on
+    else if (lightOn)
+    {
+        // Draw circle as a light for the player
+        DrawCircleGradient(center.x, center.y, circleRadius, Color{ 255, 255, 255, 120 }, Color{ 255, 255, 255, 10 });
+
+        if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
+    }
 
     // Animate the player's facing direction according to last recorded velocity before stopping
     if (velocity.x < 0.0f) rectangle.width = -1.0f * static_cast<float>(texture.width) / totalFrames;
@@ -87,9 +137,10 @@ void Player::DrawCharacter()
 
     // Move the player's position by using velocity and delta time
     position = Vector2Add(position, Vector2Scale(velocity, Window::Instance()->GetDeltaTime()));
+    center = Vector2Add(center, Vector2Scale(velocity, Window::Instance()->GetDeltaTime()));
 
     // Render the player
-    DrawTextureRec(texture, rectangle, position, WHITE);
+    if (lightOn) DrawTextureRec(texture, rectangle, position, WHITE);
 
     EndMode2D();
 }
@@ -98,4 +149,13 @@ void Player::UnloadCharacter()
 {
     // Unload the player texture
     UnloadTexture(texture);
+}
+
+void Player::DrawUI()
+{
+    noiseBars[fullTag].UpdateCurrentNoise(fullTag);
+    noiseBars[currentTag].UpdateCurrentNoise(currentTag);
+
+    noiseBars[fullTag].DrawSprite(Color{ 125, 125, 125, 255 });
+    noiseBars[currentTag].DrawSprite(RED);
 }
