@@ -4,6 +4,7 @@
 #include "NoiseBar.h"
 #include "Player.h"
 #include "Timer.h"
+#include "Audio.h"
 #include <unordered_map>
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
@@ -30,11 +31,14 @@ std::shared_ptr<Engine> Engine::Instance()
 void Engine::RunEngine()
 {
     Window::Instance()->InitializeRaylibWindow();
+    InitAudioDevice();
 
     std::unordered_map<std::string, GameObject> sprites;
     std::unordered_map<std::string, NoiseBar> noiseBars;
 
     Timer timer;
+
+    MusicAudio trackDemo;
 
     sprites["Player"].InitializeSprite("Sprite1");
     sprites["Player2"].InitializeSprite("Sprite2");
@@ -48,6 +52,8 @@ void Engine::RunEngine()
     noiseBars[currentTag].InitializeCurrentBar(currentTag);
 
     timer.InitializeTimer();
+
+    trackDemo.InitializeMusic("TrackDemo");
 
     Window::Instance()->SetFPS();
 
@@ -73,6 +79,8 @@ void Engine::RunEngine()
 
         noiseBars[fullTag].DrawSprite(BLACK);
         noiseBars[currentTag].DrawSprite(RED);
+        
+        trackDemo.PlayMusic(true);
 
         timer.RenderTimer(BLACK);
 
@@ -82,5 +90,6 @@ void Engine::RunEngine()
     sprites["Player"].UnloadSprite();
     sprites["Player2"].UnloadSprite();
     Player::Instance()->UnloadCharacter();
+    trackDemo.UnloadMusic();
     CloseWindow();
 }
