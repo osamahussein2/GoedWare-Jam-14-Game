@@ -81,25 +81,16 @@ void NoiseBar::UpdateCurrentNoise(std::string tag_)
     if (tag_ != "Current") return;
 
     // Increment current noise value
-    if (isNoiseIncreased) currentNoise += 100.0f * Window::Instance()->GetDeltaTime();
+    if (isNoiseIncreased)
+    {
+        if (currentNoise < maxNoiseThreshold) currentNoise += 50.0f * Window::Instance()->GetDeltaTime();
+    }
 
     // Otherwise, decrement current noise value
-    else currentNoise -= 100.0f * Window::Instance()->GetDeltaTime();
-
-    // Clamp the current noise value to the max noise threshold
-    if (currentNoise >= maxNoiseThreshold)
+    else
     {
-        if (currentNoise != maxNoiseThreshold) currentNoise = maxNoiseThreshold;
+        if (currentNoise > 0.0f) currentNoise -= 50.0f * Window::Instance()->GetDeltaTime();
     }
-    // Otherwise clamp the current noise value to 0
-    else if (currentNoise <= 0.0f) 
-    { 
-        if (currentNoise != 0.0f) currentNoise = 0.0f;
-    }
-
-    // For now, update noise increase boolean if space key is held
-    if (IsKeyDown(KEY_SPACE)) isNoiseIncreased = true;
-    else if (!IsKeyDown(KEY_SPACE)) isNoiseIncreased = false;
 
     // Set the rectangle's width to the current noise value
     if (rectangle.width != currentNoise) rectangle.width = currentNoise;
