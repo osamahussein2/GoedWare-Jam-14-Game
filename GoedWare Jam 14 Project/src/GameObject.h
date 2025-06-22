@@ -11,13 +11,13 @@ public:
 	GameObject();
 	~GameObject();
 
-	void InitializeSprite(const char* childNode2_);
-	void DrawSprite(Vector2 center_, float radius_, Color color_, bool lightOn_);
-	void UnloadSprite();
+	virtual void InitializeGameObject(const char* childNode2_);
+	virtual void DrawSprite(Vector2 center_, float radius_, Color color_, bool lightOn_);
+	virtual void UnloadSprite();
 
 	Rectangle GetRectangle() { return rectangle; }
 
-private:
+protected:
 	rapidxml::file<> spriteFile;
 	rapidxml::xml_document<> document;
 	rapidxml::xml_node<>* rootNode;
@@ -27,6 +27,7 @@ private:
 
 	Vector2 position;
 
+private:
 	bool insideLight;
 };
 

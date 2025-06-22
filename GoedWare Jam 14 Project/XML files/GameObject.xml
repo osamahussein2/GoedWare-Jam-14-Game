@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Sprite>
+<GameObject>
 
-  <SpriteInfo>
-    
+  <GameObjectInfo>
+
+    <WorldBackground spritePath = "res/.png" posX = "0.0f" posY = "0.0f">
+    </WorldBackground>
+
     <Sprite1 spritePath = "res/.png" posX = "0.0f" posY = "0.0f">
     </Sprite1>
 
@@ -11,6 +14,6 @@
     </Sprite2>
     
   
-</SpriteInfo>
+</GameObjectInfo>
 
-</Sprite>
+</GameObject>

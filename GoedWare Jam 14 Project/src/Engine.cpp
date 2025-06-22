@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Timer.h"
 #include "Audio.h"
+#include "World.h"
 #include <unordered_map>
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
@@ -39,8 +40,10 @@ void Engine::RunEngine()
 
     MusicAudio trackDemo;
 
-    sprites["Player"].InitializeSprite("Sprite1");
-    sprites["Player2"].InitializeSprite("Sprite2");
+    World::Instance()->InitializeGameObject("WorldBackground");
+
+    sprites["Player"].InitializeGameObject("Sprite1");
+    sprites["Player2"].InitializeGameObject("Sprite2");
 
     Player::Instance()->InitializeCharacter();
 
@@ -53,14 +56,22 @@ void Engine::RunEngine()
     // Main game loop
     while (!WindowShouldClose())
     {
-        // Update
+        // Close the window after pressing Escape key
+        if (IsKeyPressed(KEY_ESCAPE))
+        {
+            CloseWindow();
+            break;
+        }
 
         // Draw
         BeginDrawing();
 
         ClearBackground(BLACK);
 
+        // Update player camera and logic
         Player::Instance()->BeginFollowPlayerCamera();
+
+        World::Instance()->DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
 
         sprites["Player"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE, 
             Player::Instance()->GetLightOn());
@@ -69,7 +80,6 @@ void Engine::RunEngine()
             Player::Instance()->GetLightOn());
 
         Player::Instance()->DrawCharacter();
-
         Player::Instance()->DrawUI();
         
         trackDemo.PlayMusic(true);
@@ -79,9 +89,13 @@ void Engine::RunEngine()
         EndDrawing();
     }
 
+    World::Instance()->UnloadWorld();
+
     sprites["Player"].UnloadSprite();
     sprites["Player2"].UnloadSprite();
+
     Player::Instance()->UnloadCharacter();
     trackDemo.UnloadMusic();
+
     CloseWindow();
 }

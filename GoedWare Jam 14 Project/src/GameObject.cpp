@@ -9,13 +9,13 @@ GameObject::~GameObject()
 {
 }
 
-void GameObject::InitializeSprite(const char* childNode2_)
+void GameObject::InitializeGameObject(const char* childNode2_)
 {
     document.parse<0>(spriteFile.data());
 
-    rootNode = document.first_node("Sprite");
+    rootNode = document.first_node("GameObject");
 
-    for (rapidxml::xml_node<>* fileNode = rootNode->first_node("SpriteInfo"); fileNode;
+    for (rapidxml::xml_node<>* fileNode = rootNode->first_node("GameObjectInfo"); fileNode;
         fileNode = fileNode->next_sibling())
     {
         for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_); fileNode2;
