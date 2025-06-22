@@ -11,7 +11,7 @@ public:
 	MyRectangle() : barFile("XML files/Bar.xml"), rootNode(), rectangle() {}
 	virtual ~MyRectangle() {}
 
-	virtual void InitializeSprite(const char* childNode2_) = 0;
+	virtual void InitializeSprite(std::string childNode2_) = 0;
 	virtual void DrawSprite(Color color_) = 0;
 
 protected:

@@ -61,14 +61,7 @@ void Player::InitializeCharacter()
     noiseBars[fullTag].InitializeSprite("FullNoiseBar");
     noiseBars[currentTag].InitializeCurrentBar(currentTag);
 
-    groundFootsteps[0].InitializeSound("FootstepsGround1");
-    groundFootsteps[1].InitializeSound("FootstepsGround2");
-    groundFootsteps[2].InitializeSound("FootstepsGround3");
-    groundFootsteps[3].InitializeSound("FootstepsGround4");
-    groundFootsteps[4].InitializeSound("FootstepsGround5");
-    groundFootsteps[5].InitializeSound("FootstepsGround6");
-    groundFootsteps[6].InitializeSound("FootstepsGround7");
-    groundFootsteps[7].InitializeSound("FootstepsGround8");
+    for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -164,7 +157,9 @@ void Player::DrawCharacter()
     // If light isn't on, draw a black rectangle to give the illusion that lights are off
     if (!lightOn)
     {
-        if (velocity.x == 0.0f && velocity.y == 0.0f)
+        // Don't increase noise value when player isn't moving via movement input
+        if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&
+            !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT))
         {
             if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
         }

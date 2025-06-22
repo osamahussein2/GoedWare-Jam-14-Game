@@ -12,7 +12,7 @@ public:
 	~Text();
 
 	void InitializeText();
-	void RenderText(const char* childNode2_, Color color);
+	void RenderText(std::string childNode2_, Color color);
 
 private:
 	rapidxml::file<> textFile;

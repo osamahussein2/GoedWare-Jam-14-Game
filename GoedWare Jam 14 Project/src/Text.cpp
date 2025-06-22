@@ -15,12 +15,12 @@ void Text::InitializeText()
     rootNode = document.first_node("Text");
 }
 
-void Text::RenderText(const char* childNode2_, Color color)
+void Text::RenderText(std::string childNode2_, Color color)
 {
     for (rapidxml::xml_node<>* fileNode = rootNode->first_node("TextInfo"); fileNode;
         fileNode = fileNode->next_sibling())
     {
-        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_); fileNode2;
+        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_.c_str()); fileNode2;
             fileNode2 = fileNode->next_sibling())
         {
             DrawText

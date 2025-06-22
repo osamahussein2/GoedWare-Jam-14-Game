@@ -11,7 +11,7 @@ public:
 	GameObject();
 	~GameObject();
 
-	virtual void InitializeGameObject(const char* childNode2_);
+	virtual void InitializeGameObject(std::string childNode2_);
 	virtual void DrawSprite(Vector2 center_, float radius_, Color color_, bool lightOn_);
 	virtual void UnloadSprite();
 

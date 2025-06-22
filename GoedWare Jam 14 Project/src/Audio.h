@@ -11,7 +11,7 @@ public:
 	MusicAudio();
 	~MusicAudio();
 
-	void InitializeMusic(const char* filePathNode_);
+	void InitializeMusic(std::string filePathNode_);
 	void SetMusicAudioVolume(float volume_);
 	void PlayMusic(bool looping_);
 	void UnloadMusic();
@@ -34,7 +34,7 @@ public:
 	SoundAudio();
 	~SoundAudio();
 
-	void InitializeSound(const char* filePathNode_);
+	void InitializeSound(std::string filePathNode_);
 	void PlaySoundAudio();
 	void UnloadSoundAudio();
 

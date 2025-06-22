@@ -9,7 +9,7 @@ NoiseBar::~NoiseBar()
 {
 }
 
-void NoiseBar::InitializeSprite(const char* childNode2_)
+void NoiseBar::InitializeSprite(std::string childNode2_)
 {
     document.parse<0>(barFile.data());
 
@@ -18,7 +18,7 @@ void NoiseBar::InitializeSprite(const char* childNode2_)
     for (rapidxml::xml_node<>* fileNode = rootNode->first_node("BarInfo"); fileNode;
         fileNode = fileNode->next_sibling())
     {
-        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_); fileNode2;
+        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_.c_str()); fileNode2;
             fileNode2 = fileNode->next_sibling())
         {
             rectangle = 

@@ -9,7 +9,7 @@ public:
 	NoiseBar();
 	~NoiseBar();
 
-	virtual void InitializeSprite(const char* childNode2_) override;
+	virtual void InitializeSprite(std::string childNode2_) override;
 	void InitializeCurrentBar(std::string tag_);
 	virtual void DrawSprite(Color color_) override;
 
