@@ -40,7 +40,7 @@ void Engine::RunEngine()
 
     MusicAudio trackDemo;
 
-    World::Instance()->InitializeGameObject("WorldBackground");
+    World::Instance()->InitializeWorld("WorldBackground");
 
     sprites["Player"].InitializeGameObject("Sprite1");
     sprites["Player2"].InitializeGameObject("Sprite2");

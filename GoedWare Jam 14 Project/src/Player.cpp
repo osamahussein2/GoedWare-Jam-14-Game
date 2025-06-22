@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Window.h"
+#include "World.h"
 
 std::shared_ptr<Player> Player::playerInstance = nullptr;
 
@@ -80,29 +81,42 @@ void Player::DrawCharacter()
         frame++;
     }
 
-    // Make camera follow the player around
-    camera.target = { position.x, position.y };
+    // Make camera target x axis follow the player around if player is inside the x axis world bounds
+    if (position.x >= World::Instance()->GetPosition().x && position.x <= World::Instance()->GetRectangle().width)
+    {
+        camera.target.x = position.x;
+    }
+
+    // Make camera target y axis follow the player around if player is inside the y axis world bounds
+    if (position.y >= World::Instance()->GetPosition().y && position.y <= World::Instance()->GetRectangle().height)
+    {
+        camera.target.y = position.y;
+    }
 
     Vector2 velocity{};
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
     {
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
-        velocity.y = -100.0f;
+
+        if (position.y >= World::Instance()->GetPosition().y) velocity.y = -100.0f;
     }
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
     {
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
-        velocity.y = 100.0f;
+
+        if (position.y <= World::Instance()->GetRectangle().height) velocity.y = 100.0f;
     }
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
     {
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
-        velocity.x = -100.0f;
+
+        if (position.x >= World::Instance()->GetPosition().x) velocity.x = -100.0f;
     }
     if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
     {
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
-        velocity.x = 100.0f;
+
+        if (position.x <= World::Instance()->GetRectangle().width) velocity.x = 100.0f;
     }
 
     else if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&

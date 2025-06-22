@@ -21,7 +21,7 @@ std::shared_ptr<World> World::Instance()
     return worldInstance;
 }
 
-void World::InitializeGameObject(const char* childNode2_)
+void World::InitializeWorld(const char* childNode2_)
 {
     document.parse<0>(spriteFile.data());
 
@@ -33,7 +33,10 @@ void World::InitializeGameObject(const char* childNode2_)
         for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node(childNode2_); fileNode2;
             fileNode2 = fileNode->next_sibling())
         {
-            texture = LoadTexture(fileNode2->first_attribute("spritePath")->value());
+            texture = LoadTexture(fileNode2->first_attribute("worldPath")->value());
+
+            texture.width *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+            texture.height *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
 
             rectangle.width = static_cast<float>(texture.width);
             rectangle.height = static_cast<float>(texture.height);

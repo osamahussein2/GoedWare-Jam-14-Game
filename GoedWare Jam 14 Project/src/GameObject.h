@@ -16,6 +16,7 @@ public:
 	virtual void UnloadSprite();
 
 	Rectangle GetRectangle() { return rectangle; }
+	Vector2 GetPosition() { return position; }
 
 protected:
 	rapidxml::file<> spriteFile;
