@@ -4,8 +4,32 @@
 
   <AudioInfo>
 
-    <TrackDemo audioFilePath = "res/Track01.mp3">
+    <TrackDemo audioFilePath = "res/music/Track01.mp3">
     </TrackDemo>
+
+    <FootstepsGround1 audioFilePath = "res/sounds/Footsteps (Ground) (1).wav">
+    </FootstepsGround1>
+
+    <FootstepsGround2 audioFilePath = "res/sounds/Footsteps (Ground) (2).wav">
+    </FootstepsGround2>
+    
+    <FootstepsGround3 audioFilePath = "res/sounds/Footsteps (Ground) (3).wav">
+    </FootstepsGround3>
+
+    <FootstepsGround4 audioFilePath = "res/sounds/Footsteps (Ground) (4).wav">
+    </FootstepsGround4>
+
+    <FootstepsGround5 audioFilePath = "res/sounds/Footsteps (Ground) (5).wav">
+    </FootstepsGround5>
+
+    <FootstepsGround6 audioFilePath = "res/sounds/Footsteps (Ground) (6).wav">
+    </FootstepsGround6>
+
+    <FootstepsGround7 audioFilePath = "res/sounds/Footsteps (Ground) (7).wav">
+    </FootstepsGround7>
+
+    <FootstepsGround8 audioFilePath = "res/sounds/Footsteps (Ground) (8).wav">
+    </FootstepsGround8>
 
   </AudioInfo>
 

@@ -12,6 +12,7 @@ public:
 	~MusicAudio();
 
 	void InitializeMusic(const char* filePathNode_);
+	void SetMusicAudioVolume(float volume_);
 	void PlayMusic(bool looping_);
 	void UnloadMusic();
 

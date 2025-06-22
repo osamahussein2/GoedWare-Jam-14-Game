@@ -50,6 +50,7 @@ void Engine::RunEngine()
     timer.InitializeTimer();
 
     trackDemo.InitializeMusic("TrackDemo");
+    trackDemo.SetMusicAudioVolume(0.2f);
 
     Window::Instance()->SetFPS();
 

@@ -7,7 +7,7 @@ std::shared_ptr<Player> Player::playerInstance = nullptr;
 const std::string fullTag = "Full";
 const std::string currentTag = "Current";
 
-Player::Player() : lightOn(false)
+Player::Player() : lightOn(false), footstepsIndexSet(false), footstepsIndex(0)
 {
 }
 
@@ -60,6 +60,15 @@ void Player::InitializeCharacter()
 
     noiseBars[fullTag].InitializeSprite("FullNoiseBar");
     noiseBars[currentTag].InitializeCurrentBar(currentTag);
+
+    groundFootsteps[0].InitializeSound("FootstepsGround1");
+    groundFootsteps[1].InitializeSound("FootstepsGround2");
+    groundFootsteps[2].InitializeSound("FootstepsGround3");
+    groundFootsteps[3].InitializeSound("FootstepsGround4");
+    groundFootsteps[4].InitializeSound("FootstepsGround5");
+    groundFootsteps[5].InitializeSound("FootstepsGround6");
+    groundFootsteps[6].InitializeSound("FootstepsGround7");
+    groundFootsteps[7].InitializeSound("FootstepsGround8");
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -69,6 +78,9 @@ void Player::BeginFollowPlayerCamera()
 
 void Player::DrawCharacter()
 {
+    // Randomize which footsteps sound to play every frame if it's index isn't set yet
+    if (footstepsIndexSet == false) footstepsIndex = rand() % FOOTSTEPS_SIZE;
+
     // Increment running time for checking if it reaches update animation time
     runningTime += Window::Instance()->GetDeltaTime();
 
@@ -96,24 +108,44 @@ void Player::DrawCharacter()
     Vector2 velocity{};
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
     {
+        // Play ground footsteps sound
+        if (footstepsIndexSet != true) footstepsIndexSet = true;
+        groundFootsteps[footstepsIndex].PlaySoundAudio();
+
+        // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         if (position.y >= World::Instance()->GetPosition().y) velocity.y = -100.0f;
     }
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
     {
+        // Play ground footsteps sound
+        if (footstepsIndexSet != true) footstepsIndexSet = true;
+        groundFootsteps[footstepsIndex].PlaySoundAudio();
+
+        // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         if (position.y <= World::Instance()->GetRectangle().height) velocity.y = 100.0f;
     }
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
     {
+        // Play ground footsteps sound
+        if (footstepsIndexSet != true) footstepsIndexSet = true;
+        groundFootsteps[footstepsIndex].PlaySoundAudio();
+
+        // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         if (position.x >= World::Instance()->GetPosition().x) velocity.x = -100.0f;
     }
     if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
     {
+        // Play ground footsteps sound
+        if (footstepsIndexSet != true) footstepsIndexSet = true;
+        groundFootsteps[footstepsIndex].PlaySoundAudio();
+
+        // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         if (position.x <= World::Instance()->GetRectangle().width) velocity.x = 100.0f;
@@ -122,6 +154,8 @@ void Player::DrawCharacter()
     else if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&
         !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT))
     {
+        // Don't play ground footsteps sound anymore and decrease current noise value if isn't already
+        if (footstepsIndexSet != false) footstepsIndexSet = false;
         if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
     }
 

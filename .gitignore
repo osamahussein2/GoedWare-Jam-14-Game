@@ -54,3 +54,5 @@ bin/
 */Release
 */Win32
 */Builds
+
+*FileListAbsolute.txt

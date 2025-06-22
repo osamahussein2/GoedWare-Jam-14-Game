@@ -3,7 +3,10 @@
 
 #include "Character.h"
 #include "NoiseBar.h"
+#include "Audio.h"
 #include <unordered_map>
+
+constexpr int FOOTSTEPS_SIZE = 8;
 
 class Player : public Character
 {
@@ -37,6 +40,13 @@ private:
 	bool lightOn;
 
 	std::unordered_map<std::string, NoiseBar> noiseBars;
+
+	int footstepsIndex;
+	bool footstepsIndexSet;
+
+	SoundAudio groundFootsteps[FOOTSTEPS_SIZE];
+
+	// Private functions
 };
 
 #endif

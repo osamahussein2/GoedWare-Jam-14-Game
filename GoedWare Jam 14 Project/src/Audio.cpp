@@ -31,6 +31,11 @@ void MusicAudio::InitializeMusic(const char* filePathNode_)
     }
 }
 
+void MusicAudio::SetMusicAudioVolume(float volume_)
+{
+    SetMusicVolume(music, volume_);
+}
+
 void MusicAudio::PlayMusic(bool looping_)
 {
     UpdateMusicStream(music);
@@ -86,7 +91,7 @@ void SoundAudio::InitializeSound(const char* filePathNode_)
 
 void SoundAudio::PlaySoundAudio()
 {
-    PlaySound(sound);
+    if (!IsSoundPlaying(sound)) PlaySound(sound);
 }
 
 void SoundAudio::UnloadSoundAudio()
