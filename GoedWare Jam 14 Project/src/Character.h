@@ -14,8 +14,12 @@ public:
 	virtual ~Character() {}
 
 	virtual void InitializeCharacter() = 0;
+	virtual void InitializeCharacter(std::string childNode2_) = 0;
 	virtual void DrawCharacter() = 0;
 	virtual void UnloadCharacter() = 0;
+
+	virtual void ResetCharacter() = 0;
+	virtual void ResetCharacter(std::string childNode2_) = 0;
 
 protected:
 	rapidxml::file<> characterFile;

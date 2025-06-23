@@ -7,7 +7,8 @@ std::shared_ptr<Player> Player::playerInstance = nullptr;
 const std::string fullTag = "Full";
 const std::string currentTag = "Current";
 
-Player::Player() : lightOn(false), footstepsIndexSet(false), footstepsIndex(0)
+Player::Player() : lightOn(false), footstepsIndexSet(false), footstepsIndex(0), inputEnabled(true), hasFailed(false),
+center()
 {
 }
 
@@ -65,6 +66,8 @@ void Player::InitializeCharacter()
     noiseBars[fullTag].InitializeSprite("FullNoiseBar");
     noiseBars[currentTag].InitializeCurrentBar(currentTag);
 
+    timer.InitializeTimer();
+
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
 }
 
@@ -76,12 +79,12 @@ void Player::BeginFollowPlayerCamera()
 void Player::DrawCharacter()
 {
     // Randomize which footsteps sound to play every frame if it's index isn't set yet
-    if (footstepsIndexSet == false) footstepsIndex = rand() % FOOTSTEPS_SIZE;
+    if (footstepsIndexSet == false && inputEnabled) footstepsIndex = rand() % FOOTSTEPS_SIZE;
 
     // Increment running time for checking if it reaches update animation time
-    runningTime += Window::Instance()->GetDeltaTime();
+    if (inputEnabled) runningTime += Window::Instance()->GetDeltaTime();
 
-    if (runningTime >= updateTime)
+    if (runningTime >= updateTime && inputEnabled)
     {
         runningTime = 0.0f;
 
@@ -90,7 +93,7 @@ void Player::DrawCharacter()
         xFrame++;
     }
 
-    if (rectangle.y != rectangle.height * yFrame) rectangle.y = rectangle.height * yFrame;
+    if (rectangle.y != rectangle.height * yFrame && inputEnabled) rectangle.y = rectangle.height * yFrame;
 
     // Make camera target x axis follow the player around if player is inside the x axis world bounds
     if (position.x >= World::Instance()->GetPosition().x && position.x <= World::Instance()->GetRectangle().width)
@@ -105,7 +108,7 @@ void Player::DrawCharacter()
     }
 
     Vector2 velocity{};
-    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_UP))
+    if (IsKeyDown(KEY_W) && inputEnabled || IsKeyDown(KEY_UP) && inputEnabled)
     {
         // Play ground footsteps sound
         if (footstepsIndexSet != true) footstepsIndexSet = true;
@@ -120,7 +123,7 @@ void Player::DrawCharacter()
         // Set velocity to move up only if the player's y position is greater than the world map's y position
         if (position.y >= World::Instance()->GetPosition().y) velocity.y = -100.0f;
     }
-    if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
+    if (IsKeyDown(KEY_S) && inputEnabled || IsKeyDown(KEY_DOWN) && inputEnabled)
     {
         // Play ground footsteps sound
         if (footstepsIndexSet != true) footstepsIndexSet = true;
@@ -135,7 +138,7 @@ void Player::DrawCharacter()
         // Set velocity to move down only if the player's y position is less than the world map's height
         if (position.y <= World::Instance()->GetRectangle().height) velocity.y = 100.0f;
     }
-    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
+    if (IsKeyDown(KEY_A) && inputEnabled || IsKeyDown(KEY_LEFT) && inputEnabled)
     {
         // Play ground footsteps sound
         if (footstepsIndexSet != true) footstepsIndexSet = true;
@@ -150,7 +153,7 @@ void Player::DrawCharacter()
         // Set velocity to move left only if the player's x position is greater than the world map's x position
         if (position.x >= World::Instance()->GetPosition().x) velocity.x = -100.0f;
     }
-    if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
+    if (IsKeyDown(KEY_D) && inputEnabled || IsKeyDown(KEY_RIGHT) && inputEnabled)
     {
         // Play ground footsteps sound
         if (footstepsIndexSet != true) footstepsIndexSet = true;
@@ -167,21 +170,24 @@ void Player::DrawCharacter()
     }
 
     else if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&
-        !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT))
+        !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT) && inputEnabled)
     {
         // Don't play ground footsteps sound anymore and decrease current noise value if isn't already
         if (footstepsIndexSet != false) footstepsIndexSet = false;
         if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
+
+        // Play the character idle animation
+        if (yFrame != 3) yFrame = 3;
     }
 
-    if (IsKeyPressed(KEY_F)) lightOn = !lightOn;
+    if (IsKeyPressed(KEY_F) && inputEnabled) lightOn = !lightOn;
 
     // If light isn't on, draw a black rectangle to give the illusion that lights are off
     if (!lightOn)
     {
         // Don't increase noise value when player isn't moving via movement input
         if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&
-            !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT))
+            !IsKeyDown(KEY_A) && !IsKeyDown(KEY_LEFT) && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_RIGHT) && inputEnabled)
         {
             if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
         }
@@ -223,4 +229,81 @@ void Player::DrawUI()
 
     noiseBars[fullTag].DrawSprite(Color{ 125, 125, 125, 255 });
     noiseBars[currentTag].DrawSprite(RED);
+
+    timer.RenderTimer(WHITE);
+}
+
+// Getter functions for the Player class
+int Player::GetNoiseValue()
+{
+    return noiseBars[currentTag].GetCurrentNoise();
+}
+
+int Player::GetMaxNoiseThresholdValue()
+{
+    return noiseBars[currentTag].GetMaxNoiseThreshold();
+}
+
+bool Player::GetCurrentNoiseMaxedOut()
+{
+    return noiseBars[currentTag].GetNoiseMaxedOut();
+}
+
+void Player::SetPlayerInputEnabled(bool inputEnabled_)
+{
+    if (inputEnabled != inputEnabled_) inputEnabled = inputEnabled_;
+}
+
+bool Player::HasFailed() const
+{
+    return hasFailed;
+}
+
+void Player::SetHasFailed(bool hasFailed_)
+{
+    if (hasFailed != hasFailed_) hasFailed = hasFailed_;
+}
+
+void Player::ResetCharacter()
+{
+    inputEnabled = true;
+    hasFailed = false;
+
+    for (rapidxml::xml_node<>* fileNode = rootNode->first_node("CharacterInfo"); fileNode;
+        fileNode = fileNode->next_sibling())
+    {
+        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node("Player"); fileNode2;
+            fileNode2 = fileNode->next_sibling())
+        {
+            totalFramesX = atoi(fileNode2->first_attribute("totalFramesX")->value());
+            totalFramesY = atoi(fileNode2->first_attribute("totalFramesY")->value());
+
+            texture = LoadTexture(fileNode2->first_attribute("spritePath")->value());
+            texture.width *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+            texture.height *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+
+            rectangle.width = static_cast<float>(texture.width / totalFramesX);
+            rectangle.height = static_cast<float>(texture.height / totalFramesY);
+            rectangle.x = 0.0f;
+            rectangle.y = 0.0f;
+
+            position = Vector2{ static_cast<float>(atof(fileNode2->first_attribute("posX")->value())),
+                static_cast<float>(atof(fileNode2->first_attribute("posY")->value())) };
+        }
+    }
+
+    camera.target = { position.x, position.y };
+    camera.offset = { Window::Instance()->GetWindowWidth() / 2.15f, Window::Instance()->GetWindowHeight() / 2.0f };
+    camera.zoom = 1.0f;
+    camera.rotation = 0.0f;
+
+    center = { position.x + 40.0f, position.y + 10.0f };
+
+    lightOn = false;
+
+    xFrame = 0;
+    yFrame = 0;
+
+    noiseBars[currentTag].ResetCurrentNoiseValue();
+    timer.ResetTimer();
 }

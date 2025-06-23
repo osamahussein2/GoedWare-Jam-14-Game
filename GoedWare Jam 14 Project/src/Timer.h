@@ -12,13 +12,13 @@ public:
 	~Timer();
 
 	void InitializeTimer();
+	void ResetTimer();
 	void RenderTimer(Color color);
 
 private:
 	rapidxml::file<> textFile;
 	rapidxml::xml_document<> document;
 	rapidxml::xml_node<>* rootNode;
-	rapidxml::xml_attribute<>* timerTextAttribute;
 
 	int minutes;
 	float seconds;

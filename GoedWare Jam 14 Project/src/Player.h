@@ -4,6 +4,7 @@
 #include "Character.h"
 #include "NoiseBar.h"
 #include "Audio.h"
+#include "Timer.h"
 #include <unordered_map>
 
 constexpr int FOOTSTEPS_SIZE = 8;
@@ -17,18 +18,41 @@ public:
 	static std::shared_ptr<Player> Instance();
 
 	virtual void InitializeCharacter() override;
+	virtual void InitializeCharacter(std::string childNode2_) override {}
 	void BeginFollowPlayerCamera();
 	virtual void DrawCharacter() override;
 	virtual void UnloadCharacter() override;
 
+	virtual void ResetCharacter() override;
+	virtual void ResetCharacter(std::string childNode2_) {}
+
 	void DrawUI();
 
-	bool GetLightOn() { return lightOn; }
-	Vector2 GetCenter() { return center; }
+	bool GetLightOn() const { return lightOn; }
+	Vector2 GetCenter() const { return center; }
 	float GetRadius() const { return circleRadius; }
+	
+	Vector2 GetPosition() const { return position; }
+
+	int GetNoiseValue();
+	int GetMaxNoiseThresholdValue();
+
+	bool GetCurrentNoiseMaxedOut();
+
+	bool GetPlayerInputEnabled() const { return inputEnabled; }
+	void SetPlayerInputEnabled(bool inputEnabled_);
+
+	bool HasFailed() const;
+	void SetHasFailed(bool hasFailed_);
 
 private:
 	Camera2D camera{};
+
+	Timer timer;
+
+	bool inputEnabled;
+
+	bool hasFailed;
 
 	const float updateTime{ 1.0f / 10.0f };
 

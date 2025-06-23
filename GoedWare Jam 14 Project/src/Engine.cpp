@@ -6,7 +6,9 @@
 #include "Timer.h"
 #include "Audio.h"
 #include "World.h"
+#include "Spectre.h"
 #include <unordered_map>
+#include "Text.h"
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
 
@@ -36,23 +38,27 @@ void Engine::RunEngine()
 
     std::unordered_map<std::string, GameObject> sprites;
 
-    Timer timer;
-
+    Spectre spectre;
     MusicAudio trackDemo;
+    Text gameOverText;
 
     World::Instance()->InitializeWorld("WorldBackground");
 
     sprites["Player"].InitializeGameObject("Sprite1");
     sprites["Player2"].InitializeGameObject("Sprite2");
 
-    Player::Instance()->InitializeCharacter();
+    spectre.InitializeCharacter("Spectre1");
 
-    timer.InitializeTimer();
+    Player::Instance()->InitializeCharacter();
 
     trackDemo.InitializeMusic("TrackDemo");
     trackDemo.SetMusicAudioVolume(0.2f);
 
+    gameOverText.InitializeText();
+
     Window::Instance()->SetFPS();
+
+    float gameOverTime{};
 
     // Main game loop
     while (!WindowShouldClose())
@@ -69,23 +75,42 @@ void Engine::RunEngine()
 
         ClearBackground(BLACK);
 
-        // Update player camera and logic
-        Player::Instance()->BeginFollowPlayerCamera();
+        if (!Player::Instance()->HasFailed()) // Player hasn't failed the level yet
+        {
+            // Update player camera and logic
+            Player::Instance()->BeginFollowPlayerCamera();
 
-        World::Instance()->DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
+            World::Instance()->DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
 
-        sprites["Player"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE, 
-            Player::Instance()->GetLightOn());
+            sprites["Player"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE,
+                Player::Instance()->GetLightOn());
 
-        sprites["Player2"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE,
-            Player::Instance()->GetLightOn());
+            sprites["Player2"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE,
+                Player::Instance()->GetLightOn());
 
-        Player::Instance()->DrawCharacter();
-        Player::Instance()->DrawUI();
+            spectre.DrawCharacter();
+
+            Player::Instance()->DrawCharacter();
+            Player::Instance()->DrawUI();
+        }
+
+        else if (Player::Instance()->HasFailed()) // Otherwise, player failed the level
+        {
+            gameOverText.RenderText("GameOverText", RED);
+
+            gameOverTime += Window::Instance()->GetDeltaTime(); // Increment game over time
+
+            // Reset game state
+            if (gameOverTime >= 2.0f)
+            {
+                spectre.ResetCharacter("Spectre1");
+                Player::Instance()->ResetCharacter();
+
+                gameOverTime = 0.0f;
+            }
+        }
         
         trackDemo.PlayMusic(true);
-
-        timer.RenderTimer(WHITE);
 
         EndDrawing();
     }
@@ -94,6 +119,8 @@ void Engine::RunEngine()
 
     sprites["Player"].UnloadSprite();
     sprites["Player2"].UnloadSprite();
+
+    spectre.UnloadCharacter();
 
     Player::Instance()->UnloadCharacter();
     trackDemo.UnloadMusic();

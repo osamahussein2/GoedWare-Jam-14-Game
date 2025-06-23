@@ -17,9 +17,17 @@ public:
 
 	bool isNoiseIncreased;
 
+	float GetCurrentNoise() const { return currentNoise; }
+	float GetMaxNoiseThreshold() const { return maxNoiseThreshold; }
+	bool GetNoiseMaxedOut() const { return noiseMaxedOut; }
+
+	void ResetCurrentNoiseValue();
+
 private:
 	float currentNoise;
 	float maxNoiseThreshold;
+
+	bool noiseMaxedOut;
 };
 
 #endif

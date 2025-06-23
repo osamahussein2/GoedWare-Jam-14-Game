@@ -1,7 +1,8 @@
 #include "NoiseBar.h"
 #include "Window.h"
+#include "Player.h"
 
-NoiseBar::NoiseBar() : currentNoise(), maxNoiseThreshold(), isNoiseIncreased()
+NoiseBar::NoiseBar() : currentNoise(), maxNoiseThreshold(), isNoiseIncreased(), noiseMaxedOut()
 {
 }
 
@@ -81,17 +82,24 @@ void NoiseBar::UpdateCurrentNoise(std::string tag_)
     if (tag_ != "Current") return;
 
     // Increment current noise value
-    if (isNoiseIncreased)
-    {
-        if (currentNoise < maxNoiseThreshold) currentNoise += 50.0f * Window::Instance()->GetDeltaTime();
-    }
+    if (isNoiseIncreased && !noiseMaxedOut) currentNoise += 50.0f * Window::Instance()->GetDeltaTime();
 
     // Otherwise, decrement current noise value
-    else
+    else if (!isNoiseIncreased && !noiseMaxedOut)
     {
         if (currentNoise > 0.0f) currentNoise -= 50.0f * Window::Instance()->GetDeltaTime();
     }
 
+    // Set noise maxed out bool to true once current noise reaches the max noise threshold value
+    if (currentNoise >= maxNoiseThreshold && !noiseMaxedOut) noiseMaxedOut = true;
+
     // Set the rectangle's width to the current noise value
     if (rectangle.width != currentNoise) rectangle.width = currentNoise;
+}
+
+void NoiseBar::ResetCurrentNoiseValue()
+{
+    // Reset current noise logic
+    currentNoise = 0.0f;
+    noiseMaxedOut = false;
 }

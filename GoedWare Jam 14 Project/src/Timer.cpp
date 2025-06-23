@@ -1,8 +1,8 @@
 #include "Timer.h"
 #include "Window.h"
-#include <iomanip>
+#include "Player.h"
 
-Timer::Timer() : textFile("XML files/Text.xml"), rootNode()
+Timer::Timer() : textFile("XML files/Text.xml"), rootNode(), minutes(), seconds()
 {
 }
 
@@ -23,7 +23,21 @@ void Timer::InitializeTimer()
             fileNode2 = fileNode->next_sibling())
         {
             minutes = atoi(fileNode2->first_attribute("minutes")->value());
-            seconds = atoi(fileNode2->first_attribute("seconds")->value());
+            seconds = atof(fileNode2->first_attribute("seconds")->value());
+        }
+    }
+}
+
+void Timer::ResetTimer()
+{
+    for (rapidxml::xml_node<>* fileNode = rootNode->first_node("TextInfo"); fileNode;
+        fileNode = fileNode->next_sibling())
+    {
+        for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node("TimerText"); fileNode2;
+            fileNode2 = fileNode->next_sibling())
+        {
+            minutes = atoi(fileNode2->first_attribute("minutes")->value());
+            seconds = atof(fileNode2->first_attribute("seconds")->value());
         }
     }
 }
@@ -31,16 +45,19 @@ void Timer::InitializeTimer()
 void Timer::RenderTimer(Color color)
 {
     // Make sure the seconds only decrement when it's greater than 0
-    if (seconds > 0) seconds -= Window::Instance()->GetDeltaTime();
+    if (seconds > 0 && Player::Instance()->GetPlayerInputEnabled()) seconds -= Window::Instance()->GetDeltaTime();
 
     // If there are minutes left with 0 seconds, reset the seconds timer and decrease minutes by 1 each time
-    if (minutes > 0 && seconds <= 0.0f)
+    if (minutes > 0 && seconds <= 0.0f && Player::Instance()->GetPlayerInputEnabled())
     {
         minutes--;
         seconds = 59.99f;
     }
 
-    if (seconds >= 60.0f) seconds = 59.99f; // Clamp seconds to 59.99f if it's greater than that
+    if (seconds >= 60.0f && Player::Instance()->GetPlayerInputEnabled())
+    {
+        seconds = 59.99f; // Clamp seconds to 59.99f if it's greater than that
+    }
 
     for (rapidxml::xml_node<>* fileNode = rootNode->first_node("TextInfo"); fileNode;
         fileNode = fileNode->next_sibling())
