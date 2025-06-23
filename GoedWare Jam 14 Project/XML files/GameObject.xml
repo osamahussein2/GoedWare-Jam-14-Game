@@ -4,7 +4,7 @@
 
   <GameObjectInfo>
 
-    <WorldBackground worldPath = "res/.png" posX = "0.0f" posY = "0.0f" scaleMultiplier = "1.0f">
+    <WorldBackground worldPath = "res/world/.png" posX = "0.0f" posY = "0.0f" scaleMultiplier = "1.0f">
     </WorldBackground>
 
     <Sprite1 spritePath = "res/.png" posX = "0.0f" posY = "0.0f">

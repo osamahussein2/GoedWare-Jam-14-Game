@@ -21,6 +21,8 @@ public:
 	float GetMaxNoiseThreshold() const { return maxNoiseThreshold; }
 	bool GetNoiseMaxedOut() const { return noiseMaxedOut; }
 
+	void SetCurrentNoiseToMaximum() { currentNoise = maxNoiseThreshold; }
+
 	void ResetCurrentNoiseValue();
 
 private:

@@ -59,6 +59,16 @@ void Spectre::DrawCharacter()
     // Set the rectangle's y for change in animation state
     if (rectangle.y != rectangle.height * yFrame) rectangle.y = rectangle.height * yFrame;
 
+    /* If the spectre inside the player's collision bounds, set current noise to maximum if it isn't already to act as if
+    the player is way too close to them */
+    if (position.x + rectangle.width >= Player::Instance()->GetPosition().x &&
+        position.x <= Player::Instance()->GetPosition().x + Player::Instance()->GetRectangle().width &&
+        position.y + rectangle.height >= Player::Instance()->GetPosition().y &&
+        position.y <= Player::Instance()->GetPosition().y + Player::Instance()->GetRectangle().height)
+    {
+        Player::Instance()->ReturnMaximumNoise();
+    }
+
     // Make sure the player's noise value reaches the max noise threshold
     if (Player::Instance()->GetCurrentNoiseMaxedOut())
     {

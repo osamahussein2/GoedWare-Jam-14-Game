@@ -254,6 +254,11 @@ void Player::SetPlayerInputEnabled(bool inputEnabled_)
     if (inputEnabled != inputEnabled_) inputEnabled = inputEnabled_;
 }
 
+void Player::ReturnMaximumNoise()
+{
+    if (!noiseBars[currentTag].GetNoiseMaxedOut()) noiseBars[currentTag].SetCurrentNoiseToMaximum();
+}
+
 bool Player::HasFailed() const
 {
     return hasFailed;

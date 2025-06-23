@@ -33,11 +33,14 @@ public:
 	float GetRadius() const { return circleRadius; }
 	
 	Vector2 GetPosition() const { return position; }
+	Rectangle GetRectangle() const { return rectangle; }
 
 	int GetNoiseValue();
 	int GetMaxNoiseThresholdValue();
 
 	bool GetCurrentNoiseMaxedOut();
+
+	void ReturnMaximumNoise();
 
 	bool GetPlayerInputEnabled() const { return inputEnabled; }
 	void SetPlayerInputEnabled(bool inputEnabled_);
