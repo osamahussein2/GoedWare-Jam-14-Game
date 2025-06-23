@@ -78,6 +78,38 @@ void Spectre::DrawCharacter()
 
             // Move spectre towards player
             position = Vector2Add(position, goToPlayer);
+
+            if (goToPlayer.y <= -0.1f)
+            {
+                // Play the character down animation
+                if (yFrame != 0) yFrame = 0;
+            }
+
+            else if (goToPlayer.y >= 0.1f)
+            {
+                // Play the character up animation
+                if (yFrame != 1) yFrame = 1;
+            }
+
+            else if (goToPlayer.x <= -0.1f)
+            {
+                // Flip rectangle horizontally for sprite x flip
+                if (rectangle.width != -1.0f * static_cast<float>(texture.width) / totalFramesX) 
+                    rectangle.width = -1.0f * static_cast<float>(texture.width) / totalFramesX;
+
+                // Play the character left animation
+                if (yFrame != 2) yFrame = 2;
+            }
+
+            else if (goToPlayer.x >= 0.1f)
+            {
+                // Don't flip rectangle horizontally
+                if (rectangle.width != 1.0f * static_cast<float>(texture.width) / totalFramesX)
+                    rectangle.width = 1.0f * static_cast<float>(texture.width) / totalFramesX;
+
+                // Play the character right animation
+                if (yFrame != 2) yFrame = 2;
+            }
         }
 
         // If the spectre gets close enough to the player, trigger fail state logic
