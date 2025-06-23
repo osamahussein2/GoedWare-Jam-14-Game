@@ -9,8 +9,8 @@
 class Character
 {
 public:
-	Character() : frame(), position(), texture(), rectangle(), totalFrames(), characterFile("XML files/Character.xml"), 
-	rootNode() {}
+	Character() : xFrame(), position(), texture(), rectangle(), totalFramesX(), characterFile("XML files/Character.xml"), 
+	rootNode(), yFrame(), totalFramesY() {}
 	virtual ~Character() {}
 
 	virtual void InitializeCharacter() = 0;
@@ -29,8 +29,8 @@ protected:
 
 	float runningTime{};
 
-	int totalFrames;
-	int frame;
+	int totalFramesX, totalFramesY;
+	int xFrame, yFrame;
 };
 
 #endif

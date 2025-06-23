@@ -4,7 +4,8 @@
 
   <CharacterInfo>
     
-    <Player spritePath = "res/.png" totalFrames = "1" posX = "0.0f" posY = "0.0f">
+    <Player spritePath = "res/sprites/SpritesheetPlayer.png" totalFramesX = "3" totalFramesY = "3" posX = "0.0f" 
+            posY = "0.0f" scaleMultiplier = "4.0f">
     </Player>
     
   </CharacterInfo>

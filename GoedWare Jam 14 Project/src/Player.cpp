@@ -38,11 +38,15 @@ void Player::InitializeCharacter()
         for (rapidxml::xml_node<>* fileNode2 = fileNode->first_node("Player"); fileNode2;
             fileNode2 = fileNode->next_sibling())
         {
-            totalFrames = atoi(fileNode2->first_attribute("totalFrames")->value());
-            texture = LoadTexture(fileNode2->first_attribute("spritePath")->value());
+            totalFramesX = atoi(fileNode2->first_attribute("totalFramesX")->value());
+            totalFramesY = atoi(fileNode2->first_attribute("totalFramesY")->value());
 
-            rectangle.width = static_cast<float>(texture.width / totalFrames);
-            rectangle.height = static_cast<float>(texture.height);
+            texture = LoadTexture(fileNode2->first_attribute("spritePath")->value());
+            texture.width *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+            texture.height *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+
+            rectangle.width = static_cast<float>(texture.width / totalFramesX);
+            rectangle.height = static_cast<float>(texture.height / totalFramesY);
             rectangle.x = 0.0f;
             rectangle.y = 0.0f;
 
@@ -52,7 +56,7 @@ void Player::InitializeCharacter()
     }
 
     camera.target = { position.x, position.y };
-    camera.offset = { Window::Instance()->GetWindowWidth() / 2.25f, Window::Instance()->GetWindowHeight() / 2.0f };
+    camera.offset = { Window::Instance()->GetWindowWidth() / 2.15f, Window::Instance()->GetWindowHeight() / 2.0f };
     camera.zoom = 1.0f;
     camera.rotation = 0.0f;
 
@@ -82,9 +86,11 @@ void Player::DrawCharacter()
         runningTime = 0.0f;
 
         // Update animation frame
-        rectangle.x = rectangle.width * (frame % totalFrames);
-        frame++;
+        rectangle.x = rectangle.width * (xFrame % totalFramesX);
+        xFrame++;
     }
+
+    if (rectangle.y != rectangle.height * yFrame) rectangle.y = rectangle.height * yFrame;
 
     // Make camera target x axis follow the player around if player is inside the x axis world bounds
     if (position.x >= World::Instance()->GetPosition().x && position.x <= World::Instance()->GetRectangle().width)
@@ -105,9 +111,13 @@ void Player::DrawCharacter()
         if (footstepsIndexSet != true) footstepsIndexSet = true;
         groundFootsteps[footstepsIndex].PlaySoundAudio();
 
+        // Play the character moving up animation
+        if (yFrame != 1) yFrame = 1;
+
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        // Set velocity to move up only if the player's y position is greater than the world map's y position
         if (position.y >= World::Instance()->GetPosition().y) velocity.y = -100.0f;
     }
     if (IsKeyDown(KEY_S) || IsKeyDown(KEY_DOWN))
@@ -116,9 +126,13 @@ void Player::DrawCharacter()
         if (footstepsIndexSet != true) footstepsIndexSet = true;
         groundFootsteps[footstepsIndex].PlaySoundAudio();
 
+        // Play the character moving down animation
+        if (yFrame != 0) yFrame = 0;
+
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        // Set velocity to move down only if the player's y position is less than the world map's height
         if (position.y <= World::Instance()->GetRectangle().height) velocity.y = 100.0f;
     }
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT))
@@ -127,9 +141,13 @@ void Player::DrawCharacter()
         if (footstepsIndexSet != true) footstepsIndexSet = true;
         groundFootsteps[footstepsIndex].PlaySoundAudio();
 
+        // Play the character moving left animation
+        if (yFrame != 2) yFrame = 2;
+
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        // Set velocity to move left only if the player's x position is greater than the world map's x position
         if (position.x >= World::Instance()->GetPosition().x) velocity.x = -100.0f;
     }
     if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT))
@@ -138,9 +156,13 @@ void Player::DrawCharacter()
         if (footstepsIndexSet != true) footstepsIndexSet = true;
         groundFootsteps[footstepsIndex].PlaySoundAudio();
 
+        // Play the character moving right animation
+        if (yFrame != 2) yFrame = 2;
+
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        // Set velocity to move right only if the player's x position is less than the world map's width
         if (position.x <= World::Instance()->GetRectangle().width) velocity.x = 100.0f;
     }
 
@@ -175,8 +197,8 @@ void Player::DrawCharacter()
     }
 
     // Animate the player's facing direction according to last recorded velocity before stopping
-    if (velocity.x < 0.0f) rectangle.width = -1.0f * static_cast<float>(texture.width) / totalFrames;
-    else if (velocity.x > 0.0f) rectangle.width = 1.0f * static_cast<float>(texture.width) / totalFrames;
+    if (velocity.x < 0.0f) rectangle.width = -1.0f * static_cast<float>(texture.width) / totalFramesX;
+    else if (velocity.x > 0.0f) rectangle.width = 1.0f * static_cast<float>(texture.width) / totalFramesX;
 
     // Move the player's position by using velocity and delta time
     position = Vector2Add(position, Vector2Scale(velocity, Window::Instance()->GetDeltaTime()));
