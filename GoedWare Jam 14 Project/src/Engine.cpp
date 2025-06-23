@@ -47,7 +47,7 @@ void Engine::RunEngine()
     sprites["Player"].InitializeGameObject("Sprite1");
     sprites["Player2"].InitializeGameObject("Sprite2");
 
-    spectre.InitializeCharacter("Spectre1");
+    spectre.InitializeCharacter("Monster");
 
     Player::Instance()->InitializeCharacter();
 
@@ -103,7 +103,7 @@ void Engine::RunEngine()
             // Reset game state
             if (gameOverTime >= 2.0f)
             {
-                spectre.ResetCharacter("Spectre1");
+                spectre.ResetCharacter("Monster");
                 Player::Instance()->ResetCharacter();
 
                 gameOverTime = 0.0f;
