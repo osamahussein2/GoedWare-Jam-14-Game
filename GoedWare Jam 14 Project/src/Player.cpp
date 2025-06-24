@@ -197,7 +197,7 @@ void Player::DrawCharacter()
     else if (lightOn)
     {
         // Draw circle as a light for the player
-        DrawCircleGradient(center.x, center.y, circleRadius, Color{ 255, 255, 255, 120 }, Color{ 255, 255, 255, 10 });
+        DrawCircleGradient(center.x, center.y, circleRadius, Color{ 255, 255, 255, 150 }, Color{ 255, 255, 255, 30 });
 
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
     }
