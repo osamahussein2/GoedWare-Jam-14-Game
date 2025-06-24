@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Player.h"
 
 GameObject::GameObject() : spriteFile("XML files/GameObject.xml"), rootNode(), position(), rectangle(), texture(),
 insideLight(false)
@@ -24,6 +25,9 @@ void GameObject::InitializeGameObject(std::string childNode2_)
         {
             texture = LoadTexture(fileNode2->first_attribute("spritePath")->value());
 
+            texture.width *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+            texture.height *= atof(fileNode2->first_attribute("scaleMultiplier")->value());
+
             rectangle.width = static_cast<float>(texture.width);
             rectangle.height = static_cast<float>(texture.height);
             rectangle.x = 0.0f;
@@ -35,20 +39,9 @@ void GameObject::InitializeGameObject(std::string childNode2_)
     }
 }
 
-void GameObject::DrawSprite(Vector2 center_, float radius_, Color color_, bool lightOn_)
+void GameObject::DrawSprite(Color color_)
 {
-    if (lightOn_ && center_.x - radius_ / 2.0f <= position.x + rectangle.width &&  center_.x + radius_ / 2.0f >= position.x &&
-        center_.y - radius_ / 2.0f <= position.y + rectangle.height && center_.y + radius_ / 2.0f >= position.y)
-    {
-        if (insideLight != true) insideLight = true;
-    }
-
-    else
-    {
-        if (insideLight != false) insideLight = false;
-    }
-
-    if (insideLight) DrawTextureRec(texture, rectangle, position, color_);
+    if (Player::Instance()->GetLightOn()) DrawTextureRec(texture, rectangle, position, color_);
 }
 
 void GameObject::UnloadSprite()

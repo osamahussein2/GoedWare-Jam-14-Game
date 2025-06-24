@@ -6,6 +6,7 @@
 #include "Audio.h"
 #include "Timer.h"
 #include <unordered_map>
+#include "GameObject.h"
 
 constexpr int FOOTSTEPS_SIZE = 8;
 
@@ -73,7 +74,12 @@ private:
 
 	SoundAudio groundFootsteps[FOOTSTEPS_SIZE];
 
+	std::unordered_map<std::string, GameObject> bushes;
+
+	Vector2 lastPosition;
+
 	// Private functions
+	void CheckForBushCollision();
 };
 
 #endif

@@ -8,7 +8,7 @@ const std::string fullTag = "Full";
 const std::string currentTag = "Current";
 
 Player::Player() : lightOn(false), footstepsIndexSet(false), footstepsIndex(0), inputEnabled(true), hasFailed(false),
-center()
+center(), lastPosition()
 {
 }
 
@@ -66,6 +66,10 @@ void Player::InitializeCharacter()
     noiseBars[fullTag].InitializeSprite("FullNoiseBar");
     noiseBars[currentTag].InitializeCurrentBar(currentTag);
 
+    bushes["topBushTile"].InitializeGameObject("Bush1");
+    bushes["topLeftBushTile"].InitializeGameObject("Bush2");
+    bushes["topRightBushTile"].InitializeGameObject("Bush3");
+
     timer.InitializeTimer();
 
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
@@ -78,6 +82,10 @@ void Player::BeginFollowPlayerCamera()
 
 void Player::DrawCharacter()
 {
+    bushes["topBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
     // Randomize which footsteps sound to play every frame if it's index isn't set yet
     if (footstepsIndexSet == false && inputEnabled) footstepsIndex = rand() % FOOTSTEPS_SIZE;
 
@@ -107,6 +115,9 @@ void Player::DrawCharacter()
         camera.target.y = position.y;
     }
 
+    // Call the check for bush collision function for collision detection and response
+    CheckForBushCollision();
+
     Vector2 velocity{};
     if (IsKeyDown(KEY_W) && inputEnabled || IsKeyDown(KEY_UP) && inputEnabled)
     {
@@ -121,7 +132,7 @@ void Player::DrawCharacter()
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         // Set velocity to move up only if the player's y position is greater than the world map's y position
-        if (position.y >= World::Instance()->GetPosition().y) velocity.y = -100.0f;
+        velocity.y = -100.0f;
     }
     if (IsKeyDown(KEY_S) && inputEnabled || IsKeyDown(KEY_DOWN) && inputEnabled)
     {
@@ -136,7 +147,7 @@ void Player::DrawCharacter()
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         // Set velocity to move down only if the player's y position is less than the world map's height
-        if (position.y <= World::Instance()->GetRectangle().height) velocity.y = 100.0f;
+        velocity.y = 100.0f;
     }
     if (IsKeyDown(KEY_A) && inputEnabled || IsKeyDown(KEY_LEFT) && inputEnabled)
     {
@@ -151,7 +162,7 @@ void Player::DrawCharacter()
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         // Set velocity to move left only if the player's x position is greater than the world map's x position
-        if (position.x >= World::Instance()->GetPosition().x) velocity.x = -100.0f;
+        velocity.x = -100.0f;
     }
     if (IsKeyDown(KEY_D) && inputEnabled || IsKeyDown(KEY_RIGHT) && inputEnabled)
     {
@@ -166,7 +177,7 @@ void Player::DrawCharacter()
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
         // Set velocity to move right only if the player's x position is less than the world map's width
-        if (position.x <= World::Instance()->GetRectangle().width) velocity.x = 100.0f;
+        velocity.x = 100.0f;
     }
 
     else if (!IsKeyDown(KEY_W) && !IsKeyDown(KEY_UP) && !IsKeyDown(KEY_S) && !IsKeyDown(KEY_DOWN) &&
@@ -220,6 +231,10 @@ void Player::UnloadCharacter()
 {
     // Unload the player texture
     UnloadTexture(texture);
+
+    bushes["topBushTile"].UnloadSprite();
+    bushes["topLeftBushTile"].UnloadSprite();
+    bushes["topRightBushTile"].UnloadSprite();
 }
 
 void Player::DrawUI()
@@ -311,4 +326,32 @@ void Player::ResetCharacter()
 
     noiseBars[currentTag].ResetCurrentNoiseValue();
     timer.ResetTimer();
+}
+
+void Player::CheckForBushCollision()
+{
+    // Check if player collided with any of the bushes
+    if (position.x + rectangle.width >= bushes["topBushTile"].GetPosition().x &&
+        position.x <= bushes["topBushTile"].GetPosition().x + bushes["topBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topBushTile"].GetPosition().y &&
+        position.y <= bushes["topBushTile"].GetPosition().y + bushes["topBushTile"].GetRectangle().height
+        || 
+        position.x + rectangle.width >= bushes["topLeftBushTile"].GetPosition().x &&
+        position.x <= bushes["topLeftBushTile"].GetPosition().x + bushes["topLeftBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topLeftBushTile"].GetPosition().y &&
+        position.y <= bushes["topLeftBushTile"].GetPosition().y + bushes["topLeftBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topRightBushTile"].GetPosition().x &&
+        position.x <= bushes["topRightBushTile"].GetPosition().x + bushes["topRightBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topRightBushTile"].GetPosition().y &&
+        position.y <= bushes["topRightBushTile"].GetPosition().y + bushes["topRightBushTile"].GetRectangle().height)
+    {
+        if (position != lastPosition) position = lastPosition;
+        if (center != lastPosition) center = { lastPosition.x + 40.0f, lastPosition.y + 10.0f };
+    }
+
+    else
+    {
+        if (lastPosition != position) lastPosition = position;
+    }
 }

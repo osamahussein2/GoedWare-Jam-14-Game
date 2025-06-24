@@ -7,6 +7,15 @@
     <WorldBackground worldPath = "res/world/Tileset.png" posX = "0.0f" posY = "0.0f" scaleMultiplier = "12.0f">
     </WorldBackground>
 
+    <Bush1 spritePath = "res/world/Bush-1.png" posX = "372.0f" posY = "0.0f" scaleMultiplier = "12.0f">
+    </Bush1>
+
+    <Bush2 spritePath = "res/world/Bush-2.png" posX = "372.0f" posY = "180.0f" scaleMultiplier = "12.0f">
+    </Bush2>
+
+    <Bush3 spritePath = "res/world/Bush-2.png" posX = "1152.0f" posY = "180.0f" scaleMultiplier = "12.0f">
+    </Bush3>
+
     <Sprite1 spritePath = "res/.png" posX = "0.0f" posY = "0.0f">
     </Sprite1>
 

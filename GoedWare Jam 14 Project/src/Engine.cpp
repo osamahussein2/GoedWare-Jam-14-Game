@@ -7,7 +7,6 @@
 #include "Audio.h"
 #include "World.h"
 #include "Spectre.h"
-#include <unordered_map>
 #include "Text.h"
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
@@ -36,16 +35,11 @@ void Engine::RunEngine()
     Window::Instance()->InitializeRaylibWindow();
     InitAudioDevice();
 
-    std::unordered_map<std::string, GameObject> sprites;
-
     Spectre spectre;
     MusicAudio trackDemo;
     Text gameOverText;
 
     World::Instance()->InitializeWorld("WorldBackground");
-
-    sprites["Player"].InitializeGameObject("Sprite1");
-    sprites["Player2"].InitializeGameObject("Sprite2");
 
     spectre.InitializeCharacter("Monster");
 
@@ -82,12 +76,6 @@ void Engine::RunEngine()
 
             World::Instance()->DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
 
-            sprites["Player"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE,
-                Player::Instance()->GetLightOn());
-
-            sprites["Player2"].DrawSprite(Player::Instance()->GetCenter(), Player::Instance()->GetRadius(), WHITE,
-                Player::Instance()->GetLightOn());
-
             spectre.DrawCharacter();
 
             Player::Instance()->DrawCharacter();
@@ -116,9 +104,6 @@ void Engine::RunEngine()
     }
 
     World::Instance()->UnloadWorld();
-
-    sprites["Player"].UnloadSprite();
-    sprites["Player2"].UnloadSprite();
 
     spectre.UnloadCharacter();
 
