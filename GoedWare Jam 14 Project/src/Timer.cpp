@@ -54,6 +54,12 @@ void Timer::RenderTimer(Color color)
         seconds = 59.99f;
     }
 
+    // If timer has expired, transition to the game over state
+    if (minutes <= 0 && seconds <= 0.0f)
+    {
+        Player::Instance()->SetHasFailed(true);
+    }
+
     if (seconds >= 60.0f && Player::Instance()->GetPlayerInputEnabled())
     {
         seconds = 59.99f; // Clamp seconds to 59.99f if it's greater than that

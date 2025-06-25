@@ -76,6 +76,12 @@ void Player::InitializeCharacter()
     bushes["topBottomLeftBushTile"].InitializeGameObject("Bush8");
     bushes["topBottomRightBushTile"].InitializeGameObject("Bush9");
     bushes["bottomMiddleBushTile"].InitializeGameObject("Bush10");
+    bushes["topLeftBlockTile"].InitializeGameObject("Bush11");
+    bushes["topRightBlockTile"].InitializeGameObject("Bush12");
+    bushes["lowerTopLeftBlockTile"].InitializeGameObject("Bush13");
+    bushes["lowerTopRightBlockTile"].InitializeGameObject("Bush14");
+    bushes["topBottomLeftBlockTile"].InitializeGameObject("Bush15");
+    bushes["topBottomRightBlockTile"].InitializeGameObject("Bush16");
 
     timer.InitializeTimer();
 
@@ -99,7 +105,12 @@ void Player::DrawCharacter()
     bushes["topBottomLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["topBottomRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["bottomMiddleBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-
+    bushes["topLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["topRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 255 });
+    bushes["lowerTopLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["lowerTopRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 255 });
+    bushes["topBottomLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 255 });
 
     // Randomize which footsteps sound to play every frame if it's index isn't set yet
     if (footstepsIndexSet == false && inputEnabled) footstepsIndex = rand() % FOOTSTEPS_SIZE;
@@ -119,15 +130,16 @@ void Player::DrawCharacter()
     if (rectangle.y != rectangle.height * yFrame && inputEnabled) rectangle.y = rectangle.height * yFrame;
 
     // Make camera target x axis follow the player around if player is inside the x axis world bounds
-    if (position.x >= World::Instance()->GetPosition().x && position.x <= World::Instance()->GetRectangle().width)
-    {
-        camera.target.x = position.x;
-    }
+    camera.target = position;
 
-    // Make camera target y axis follow the player around if player is inside the y axis world bounds
-    if (position.y >= World::Instance()->GetPosition().y && position.y <= World::Instance()->GetRectangle().height)
+    // If player goes out of map bounds, respawn the player back inside the map bounds
+    if (position.y < 0.0f || position.y > bushes["bottomMiddleBushTile"].GetPosition().y + 
+        bushes["bottomMiddleBushTile"].GetRectangle().height || 
+        position.x < 0.0f || position.x > bushes["middleRightBushTile"].GetPosition().x +
+        bushes["middleRightBushTile"].GetRectangle().width)
     {
-        camera.target.y = position.y;
+        position = { 600.0f, 700.0f };
+        center = { position.x + 40.0f, position.y + 10.0f };
     }
 
     // Call the check for bush collision function for collision detection and response
@@ -247,16 +259,10 @@ void Player::UnloadCharacter()
     // Unload the player texture
     UnloadTexture(texture);
 
-    bushes["topBushTile"].UnloadSprite();
-    bushes["topLeftBushTile"].UnloadSprite();
-    bushes["topRightBushTile"].UnloadSprite();
-    bushes["lowerTopLeftBushTile"].UnloadSprite();
-    bushes["lowerTopRightBushTile"].UnloadSprite();
-    bushes["middleLeftBushTile"].UnloadSprite();
-    bushes["middleRightBushTile"].UnloadSprite();
-    bushes["topBottomLeftBushTile"].UnloadSprite();
-    bushes["topBottomRightBushTile"].UnloadSprite();
-    bushes["bottomMiddleBushTile"].UnloadSprite();
+    for (std::pair<const std::string, GameObject>& bushMaps : bushes)
+    {
+        bushMaps.second.UnloadSprite();
+    }
 }
 
 void Player::DrawUI()
@@ -401,7 +407,37 @@ void Player::CheckForBushCollision()
         position.x + rectangle.width >= bushes["bottomMiddleBushTile"].GetPosition().x &&
         position.x <= bushes["bottomMiddleBushTile"].GetPosition().x + bushes["bottomMiddleBushTile"].GetRectangle().width &&
         position.y + rectangle.height >= bushes["bottomMiddleBushTile"].GetPosition().y &&
-        position.y <= bushes["bottomMiddleBushTile"].GetPosition().y + bushes["bottomMiddleBushTile"].GetRectangle().height)
+        position.y <= bushes["bottomMiddleBushTile"].GetPosition().y + bushes["bottomMiddleBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topLeftBlockTile"].GetPosition().x &&
+        position.x <= bushes["topLeftBlockTile"].GetPosition().x + bushes["topLeftBlockTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topLeftBlockTile"].GetPosition().y &&
+        position.y <= bushes["topLeftBlockTile"].GetPosition().y + bushes["topLeftBlockTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topRightBlockTile"].GetPosition().x &&
+        position.x <= bushes["topRightBlockTile"].GetPosition().x + bushes["topRightBlockTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topRightBlockTile"].GetPosition().y &&
+        position.y <= bushes["topRightBlockTile"].GetPosition().y + bushes["topRightBlockTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["lowerTopLeftBlockTile"].GetPosition().x &&
+        position.x <= bushes["lowerTopLeftBlockTile"].GetPosition().x + bushes["lowerTopLeftBlockTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["lowerTopLeftBlockTile"].GetPosition().y &&
+        position.y <= bushes["lowerTopLeftBlockTile"].GetPosition().y + bushes["lowerTopLeftBlockTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["lowerTopRightBlockTile"].GetPosition().x &&
+        position.x <= bushes["lowerTopRightBlockTile"].GetPosition().x + bushes["lowerTopRightBlockTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["lowerTopRightBlockTile"].GetPosition().y &&
+        position.y <= bushes["lowerTopRightBlockTile"].GetPosition().y + bushes["lowerTopRightBlockTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topBottomLeftBlockTile"].GetPosition().x &&
+        position.x <= bushes["topBottomLeftBlockTile"].GetPosition().x + bushes["topBottomLeftBlockTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topBottomLeftBlockTile"].GetPosition().y &&
+        position.y <= bushes["topBottomLeftBlockTile"].GetPosition().y + bushes["topBottomLeftBlockTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topBottomRightBlockTile"].GetPosition().x &&
+        position.x <= bushes["topBottomRightBlockTile"].GetPosition().x + bushes["topBottomRightBlockTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topBottomRightBlockTile"].GetPosition().y &&
+        position.y <= bushes["topBottomRightBlockTile"].GetPosition().y + bushes["topBottomRightBlockTile"].GetRectangle().height)
     {
         if (position != lastPosition) position = lastPosition;
         if (center != lastPosition) center = { lastPosition.x + 40.0f, lastPosition.y + 10.0f };
