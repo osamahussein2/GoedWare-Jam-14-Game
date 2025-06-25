@@ -13,8 +13,29 @@
     <Bush2 spritePath = "res/world/Bush-2.png" posX = "372.0f" posY = "180.0f" scaleMultiplier = "12.0f">
     </Bush2>
 
-    <Bush3 spritePath = "res/world/Bush-2.png" posX = "1152.0f" posY = "180.0f" scaleMultiplier = "12.0f">
+    <Bush3 spritePath = "res/world/Bush-3.png" posX = "1152.0f" posY = "180.0f" scaleMultiplier = "12.0f">
     </Bush3>
+
+    <Bush4 spritePath = "res/world/Bush-4.png" posX = "192.0f" posY = "576.0f" scaleMultiplier = "12.0f">
+    </Bush4>
+
+    <Bush5 spritePath = "res/world/Bush-5.png" posX = "1344.0f" posY = "576.0f" scaleMultiplier = "12.0f">
+    </Bush5>
+
+    <Bush6 spritePath = "res/world/Bush-6.png" posX = "0.0f" posY = "768.0f" scaleMultiplier = "12.0f">
+    </Bush6>
+
+    <Bush7 spritePath = "res/world/Bush-7.png" posX = "1536.0f" posY = "768.0f" scaleMultiplier = "12.0f">
+    </Bush7>
+
+    <Bush8 spritePath = "res/world/Bush-8.png" posX = "192.0f" posY = "1536.0f" scaleMultiplier = "12.0f">
+    </Bush8>
+
+    <Bush9 spritePath = "res/world/Bush-9.png" posX = "1344.0f" posY = "1536.0f" scaleMultiplier = "12.0f">
+    </Bush9>
+
+    <Bush10 spritePath = "res/world/Bush-10.png" posX = "192.0f" posY = "1728.0f" scaleMultiplier = "12.0f">
+    </Bush10>
 
     <Sprite1 spritePath = "res/.png" posX = "0.0f" posY = "0.0f">
     </Sprite1>

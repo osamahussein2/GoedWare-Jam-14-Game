@@ -69,6 +69,13 @@ void Player::InitializeCharacter()
     bushes["topBushTile"].InitializeGameObject("Bush1");
     bushes["topLeftBushTile"].InitializeGameObject("Bush2");
     bushes["topRightBushTile"].InitializeGameObject("Bush3");
+    bushes["lowerTopLeftBushTile"].InitializeGameObject("Bush4");
+    bushes["lowerTopRightBushTile"].InitializeGameObject("Bush5");
+    bushes["middleLeftBushTile"].InitializeGameObject("Bush6");
+    bushes["middleRightBushTile"].InitializeGameObject("Bush7");
+    bushes["topBottomLeftBushTile"].InitializeGameObject("Bush8");
+    bushes["topBottomRightBushTile"].InitializeGameObject("Bush9");
+    bushes["bottomMiddleBushTile"].InitializeGameObject("Bush10");
 
     timer.InitializeTimer();
 
@@ -85,6 +92,14 @@ void Player::DrawCharacter()
     bushes["topBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["lowerTopLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["lowerTopRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["middleLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["middleRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["topBottomLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["topBottomRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+    bushes["bottomMiddleBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
 
     // Randomize which footsteps sound to play every frame if it's index isn't set yet
     if (footstepsIndexSet == false && inputEnabled) footstepsIndex = rand() % FOOTSTEPS_SIZE;
@@ -235,6 +250,13 @@ void Player::UnloadCharacter()
     bushes["topBushTile"].UnloadSprite();
     bushes["topLeftBushTile"].UnloadSprite();
     bushes["topRightBushTile"].UnloadSprite();
+    bushes["lowerTopLeftBushTile"].UnloadSprite();
+    bushes["lowerTopRightBushTile"].UnloadSprite();
+    bushes["middleLeftBushTile"].UnloadSprite();
+    bushes["middleRightBushTile"].UnloadSprite();
+    bushes["topBottomLeftBushTile"].UnloadSprite();
+    bushes["topBottomRightBushTile"].UnloadSprite();
+    bushes["bottomMiddleBushTile"].UnloadSprite();
 }
 
 void Player::DrawUI()
@@ -344,7 +366,42 @@ void Player::CheckForBushCollision()
         position.x + rectangle.width >= bushes["topRightBushTile"].GetPosition().x &&
         position.x <= bushes["topRightBushTile"].GetPosition().x + bushes["topRightBushTile"].GetRectangle().width &&
         position.y + rectangle.height >= bushes["topRightBushTile"].GetPosition().y &&
-        position.y <= bushes["topRightBushTile"].GetPosition().y + bushes["topRightBushTile"].GetRectangle().height)
+        position.y <= bushes["topRightBushTile"].GetPosition().y + bushes["topRightBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["lowerTopLeftBushTile"].GetPosition().x &&
+        position.x <= bushes["lowerTopLeftBushTile"].GetPosition().x + bushes["lowerTopLeftBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["lowerTopLeftBushTile"].GetPosition().y &&
+        position.y <= bushes["lowerTopLeftBushTile"].GetPosition().y + bushes["lowerTopLeftBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["lowerTopRightBushTile"].GetPosition().x &&
+        position.x <= bushes["lowerTopRightBushTile"].GetPosition().x + bushes["lowerTopRightBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["lowerTopRightBushTile"].GetPosition().y &&
+        position.y <= bushes["lowerTopRightBushTile"].GetPosition().y + bushes["lowerTopRightBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["middleLeftBushTile"].GetPosition().x &&
+        position.x <= bushes["middleLeftBushTile"].GetPosition().x + bushes["middleLeftBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["middleLeftBushTile"].GetPosition().y &&
+        position.y <= bushes["middleLeftBushTile"].GetPosition().y + bushes["middleLeftBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["middleRightBushTile"].GetPosition().x &&
+        position.x <= bushes["middleRightBushTile"].GetPosition().x + bushes["middleRightBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["middleRightBushTile"].GetPosition().y &&
+        position.y <= bushes["middleRightBushTile"].GetPosition().y + bushes["middleRightBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topBottomLeftBushTile"].GetPosition().x &&
+        position.x <= bushes["topBottomLeftBushTile"].GetPosition().x + bushes["topBottomLeftBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topBottomLeftBushTile"].GetPosition().y &&
+        position.y <= bushes["topBottomLeftBushTile"].GetPosition().y + bushes["topBottomLeftBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["topBottomRightBushTile"].GetPosition().x &&
+        position.x <= bushes["topBottomRightBushTile"].GetPosition().x + bushes["topBottomRightBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["topBottomRightBushTile"].GetPosition().y &&
+        position.y <= bushes["topBottomRightBushTile"].GetPosition().y + bushes["topBottomRightBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= bushes["bottomMiddleBushTile"].GetPosition().x &&
+        position.x <= bushes["bottomMiddleBushTile"].GetPosition().x + bushes["bottomMiddleBushTile"].GetRectangle().width &&
+        position.y + rectangle.height >= bushes["bottomMiddleBushTile"].GetPosition().y &&
+        position.y <= bushes["bottomMiddleBushTile"].GetPosition().y + bushes["bottomMiddleBushTile"].GetRectangle().height)
     {
         if (position != lastPosition) position = lastPosition;
         if (center != lastPosition) center = { lastPosition.x + 40.0f, lastPosition.y + 10.0f };
