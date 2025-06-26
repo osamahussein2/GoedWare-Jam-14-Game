@@ -27,9 +27,6 @@ protected:
 	Rectangle rectangle;
 
 	Vector2 position;
-
-private:
-	bool insideLight;
 };
 
 #endif

@@ -59,6 +59,12 @@
 
     <Bush16 spritePath = "res/world/Bush-16.png" posX = "1344.0f" posY = "1536.0f" scaleMultiplier = "12.0f">
     </Bush16>
+
+    <!--Level 1 spritesheet with animations-->
+    
+    <Puddle1 spritePath = "res/sprites/Puddle.png" posX = "800.0f" posY = "600.0f" totalFramesX = "4" 
+             scaleMultiplier = "5.0f">
+    </Puddle1>
     
     <!--Level 2-->
 

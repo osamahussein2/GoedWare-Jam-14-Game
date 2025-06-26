@@ -1,8 +1,7 @@
 #include "GameObject.h"
 #include "Player.h"
 
-GameObject::GameObject() : spriteFile("XML files/GameObject.xml"), rootNode(), position(), rectangle(), texture(),
-insideLight(false)
+GameObject::GameObject() : spriteFile("XML files/GameObject.xml"), rootNode(), position(), rectangle(), texture()
 {
 
 }

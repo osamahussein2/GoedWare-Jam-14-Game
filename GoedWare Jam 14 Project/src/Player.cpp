@@ -4,6 +4,8 @@
 
 std::shared_ptr<Player> Player::playerInstance = nullptr;
 
+constexpr float noiseVelocity = 25.0f;
+
 const std::string fullTag = "Full";
 const std::string currentTag = "Current";
 
@@ -92,6 +94,8 @@ void Player::InitializeCharacter()
     timer.InitializeTimer();
 
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
+
+    puddle.InitializeGameObject("Puddle1");
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -121,6 +125,8 @@ void Player::DrawCharacter()
         level1Bushes["lowerTopRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level1Bushes["topBottomLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level1Bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
+        puddle.DrawSprite(Color{ 255, 255, 255, 150 });
 
         // If player goes out of map bounds, respawn the player back inside the map bounds
         if (position.y < 0.0f || position.y > level1Bushes["bottomMiddleBushTile"].GetPosition().y +
@@ -194,6 +200,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+
         // Set velocity to move up only if the player's y position is greater than the world map's y position
         velocity.y = -100.0f;
     }
@@ -208,6 +216,8 @@ void Player::DrawCharacter()
 
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
+
+        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Set velocity to move down only if the player's y position is less than the world map's height
         velocity.y = 100.0f;
@@ -224,6 +234,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+
         // Set velocity to move left only if the player's x position is greater than the world map's x position
         velocity.x = -100.0f;
     }
@@ -239,6 +251,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
+        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+
         // Set velocity to move right only if the player's x position is less than the world map's width
         velocity.x = 100.0f;
     }
@@ -249,6 +263,8 @@ void Player::DrawCharacter()
         // Don't play ground footsteps sound anymore and decrease current noise value if isn't already
         if (footstepsIndexSet != false) footstepsIndexSet = false;
         if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
+
+        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Play the character idle animation
         if (yFrame != 3) yFrame = 3;
@@ -272,6 +288,8 @@ void Player::DrawCharacter()
     {
         // Draw circle as a light for the player
         DrawCircleGradient(center.x, center.y, circleRadius, Color{ 255, 255, 255, 150 }, Color{ 255, 255, 255, 30 });
+
+        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
     }
@@ -304,6 +322,8 @@ void Player::UnloadCharacter()
     {
         bushMaps2.second.UnloadSprite();
     }
+
+    puddle.UnloadSprite();
 }
 
 void Player::DrawUI()
@@ -346,6 +366,11 @@ void Player::ReturnMaximumNoise()
 bool Player::HasFailed() const
 {
     return hasFailed;
+}
+
+void Player::SetPlayerNoiseVelocity(float noiseVelocity_)
+{
+    noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity_);
 }
 
 void Player::SetHasFailed(bool hasFailed_)
@@ -395,6 +420,8 @@ void Player::ResetCharacter()
 
     noiseBars[currentTag].ResetCurrentNoiseValue();
     timer.ResetTimer();
+
+    puddle.ResetPuddle("Puddle1");
 }
 
 void Player::CheckForLevel1BushCollision()

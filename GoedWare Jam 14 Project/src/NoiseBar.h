@@ -25,11 +25,20 @@ public:
 
 	void ResetCurrentNoiseValue();
 
+	float GetCurrentNoiseVelocity() const { return currentNoiseVelocity; }
+
+	void SetCurrentNoiseVelocity(float currentNoiseVelocity_) 
+	{ 
+		if (currentNoiseVelocity != currentNoiseVelocity_) currentNoiseVelocity = currentNoiseVelocity_;
+	}
+
 private:
 	float currentNoise;
 	float maxNoiseThreshold;
 
 	bool noiseMaxedOut;
+
+	float currentNoiseVelocity;
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include "Timer.h"
 #include <unordered_map>
 #include "GameObject.h"
+#include "Puddle.h"
 
 constexpr int FOOTSTEPS_SIZE = 8;
 
@@ -51,6 +52,8 @@ public:
 
 	int GetLevelNumber() const { return levelNumber; }
 
+	void SetPlayerNoiseVelocity(float noiseVelocity_);
+
 private:
 	Camera2D camera{};
 
@@ -81,6 +84,8 @@ private:
 	Vector2 lastPosition;
 
 	int levelNumber;
+
+	Puddle puddle;
 
 	// Private functions
 	void CheckForLevel1BushCollision();

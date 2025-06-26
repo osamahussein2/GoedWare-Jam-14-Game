@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Player.h"
 
-NoiseBar::NoiseBar() : currentNoise(), maxNoiseThreshold(), isNoiseIncreased(), noiseMaxedOut()
+NoiseBar::NoiseBar() : currentNoise(), maxNoiseThreshold(), isNoiseIncreased(), noiseMaxedOut(), currentNoiseVelocity()
 {
 }
 
@@ -82,7 +82,7 @@ void NoiseBar::UpdateCurrentNoise(std::string tag_)
     if (tag_ != "Current") return;
 
     // Increment current noise value
-    if (isNoiseIncreased && !noiseMaxedOut) currentNoise += 50.0f * Window::Instance()->GetDeltaTime();
+    if (isNoiseIncreased && !noiseMaxedOut) currentNoise += currentNoiseVelocity * Window::Instance()->GetDeltaTime();
 
     // Otherwise, decrement current noise value
     else if (!isNoiseIncreased && !noiseMaxedOut)
