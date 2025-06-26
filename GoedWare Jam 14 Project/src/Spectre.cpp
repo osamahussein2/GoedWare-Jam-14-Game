@@ -115,13 +115,13 @@ void Spectre::DrawCharacter()
             if (goToPlayer.y <= -0.1f)
             {
                 // Play the character down animation
-                if (yFrame != 2) yFrame = 2;
+                if (yFrame != 3) yFrame = 3;
             }
 
             else if (goToPlayer.y >= 0.1f)
             {
                 // Play the character up animation
-                if (yFrame != 3) yFrame = 3;
+                if (yFrame != 2) yFrame = 2;
             }
 
             else if (goToPlayer.x <= -0.1f)

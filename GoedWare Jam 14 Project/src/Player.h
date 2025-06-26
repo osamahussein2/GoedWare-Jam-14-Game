@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "GameObject.h"
 #include "Puddle.h"
+#include "Branch.h"
 
 constexpr int FOOTSTEPS_SIZE = 8;
 
@@ -24,6 +25,8 @@ public:
 	void BeginFollowPlayerCamera();
 	virtual void DrawCharacter() override;
 	virtual void UnloadCharacter() override;
+
+	void DrawGameObjects();
 
 	virtual void ResetCharacter() override;
 	virtual void ResetCharacter(std::string childNode2_) {}
@@ -86,6 +89,7 @@ private:
 	int levelNumber;
 
 	Puddle puddle;
+	Branch branch;
 
 	// Private functions
 	void CheckForLevel1BushCollision();

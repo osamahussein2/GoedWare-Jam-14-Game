@@ -96,6 +96,8 @@ void Player::InitializeCharacter()
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
 
     puddle.InitializeGameObject("Puddle1");
+
+    branch.InitializeGameObject("Branch1");
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -109,32 +111,13 @@ void Player::DrawCharacter()
     switch (levelNumber)
     {
     case 1:
-        level1Bushes["topBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["lowerTopLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["lowerTopRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["middleLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["middleRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topBottomLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topBottomRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["bottomMiddleBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["lowerTopLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["lowerTopRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topBottomLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level1Bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-
-        puddle.DrawSprite(Color{ 255, 255, 255, 150 });
-
         // If player goes out of map bounds, respawn the player back inside the map bounds
         if (position.y < 0.0f || position.y > level1Bushes["bottomMiddleBushTile"].GetPosition().y +
             level1Bushes["bottomMiddleBushTile"].GetRectangle().height || position.x < 0.0f || 
             position.x > level1Bushes["middleRightBushTile"].GetPosition().x +
             level1Bushes["middleRightBushTile"].GetRectangle().width)
         {
-            position = { 600.0f, 700.0f };
+            position = { 830.0f, 255.0f };
             center = { position.x + 40.0f, position.y + 10.0f };
         }
 
@@ -144,12 +127,6 @@ void Player::DrawCharacter()
         break;
 
     case 2:
-        level2Bushes["leftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level2Bushes["rightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level2Bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level2Bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-        level2Bushes["bottomBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-
         // If player goes out of map bounds, respawn the player back inside the map bounds
         if (position.y < -100.0f || position.y > level2Bushes["bottomBushTile"].GetPosition().y +
             level2Bushes["bottomBushTile"].GetRectangle().height || position.x < 0.0f || 
@@ -200,7 +177,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
+            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Set velocity to move up only if the player's y position is greater than the world map's y position
         velocity.y = -100.0f;
@@ -217,7 +195,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch())
+            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Set velocity to move down only if the player's y position is less than the world map's height
         velocity.y = 100.0f;
@@ -234,7 +213,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
+            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Set velocity to move left only if the player's x position is greater than the world map's x position
         velocity.x = -100.0f;
@@ -251,7 +231,8 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
+            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Set velocity to move right only if the player's x position is less than the world map's width
         velocity.x = 100.0f;
@@ -264,7 +245,8 @@ void Player::DrawCharacter()
         if (footstepsIndexSet != false) footstepsIndexSet = false;
         if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
 
-        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
+            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         // Play the character idle animation
         if (yFrame != 3) yFrame = 3;
@@ -289,10 +271,13 @@ void Player::DrawCharacter()
         // Draw circle as a light for the player
         DrawCircleGradient(center.x, center.y, circleRadius, Color{ 255, 255, 255, 150 }, Color{ 255, 255, 255, 30 });
 
-        if (!puddle.GetPlayerSteppedOnPuddle()) noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
+            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
 
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
     }
+
+    if (IsKeyPressed(KEY_SPACE)) printf("Player position: %f, %f\n", position.x, position.y);
 
     // Animate the player's facing direction according to last recorded velocity before stopping
     if (velocity.x < 0.0f) rectangle.width = -1.0f * static_cast<float>(texture.width) / totalFramesX;
@@ -324,6 +309,49 @@ void Player::UnloadCharacter()
     }
 
     puddle.UnloadSprite();
+    branch.UnloadSprite();
+}
+
+void Player::DrawGameObjects()
+{
+    switch (levelNumber)
+    {
+    case 1:
+        level1Bushes["topBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["lowerTopLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["lowerTopRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["middleLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["middleRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topBottomLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topBottomRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["bottomMiddleBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["lowerTopLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["lowerTopRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topBottomLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level1Bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
+        puddle.DrawSprite(Color{ 255, 255, 255, 150 });
+
+        branch.DrawSprite(Color{ 255, 255, 255, 150 });
+
+        break;
+
+    case 2:
+        level2Bushes["leftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Bushes["rightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Bushes["bottomBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
+        break;
+
+    default:
+        break;
+    }
 }
 
 void Player::DrawUI()
@@ -422,6 +450,8 @@ void Player::ResetCharacter()
     timer.ResetTimer();
 
     puddle.ResetPuddle("Puddle1");
+
+    branch.ResetBranch("Branch1");
 }
 
 void Player::CheckForLevel1BushCollision()

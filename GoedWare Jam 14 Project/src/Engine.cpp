@@ -81,14 +81,14 @@ void Engine::RunEngine()
             if (Player::Instance()->GetLevelNumber() == 1) // Level 1
             {
                 levels[0].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
-
+                Player::Instance()->DrawGameObjects();
                 spectre.DrawCharacter();
             }
 
             else if (Player::Instance()->GetLevelNumber() == 2) // Level 2
             {
                 levels[1].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
-
+                Player::Instance()->DrawGameObjects();
                 spectre.DrawCharacter();
             }
 

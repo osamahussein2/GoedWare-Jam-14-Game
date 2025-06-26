@@ -4,12 +4,12 @@
 
   <CharacterInfo>
     
-    <Player spritePath = "res/sprites/SpritesheetPlayer.png" totalFramesX = "4" totalFramesY = "4" posX = "600.0f" 
-            posY = "700.0f" scaleMultiplier = "4.0f">
+    <Player spritePath = "res/sprites/SpritesheetPlayer.png" totalFramesX = "4" totalFramesY = "4" posX = "830.0f" 
+            posY = "255.0f" scaleMultiplier = "4.0f">
     </Player>
 
-    <Monster spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "800.0f"
-            posY = "200.0f" scaleMultiplier = "4.0f">
+    <Monster spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "448.0f"
+            posY = "805.0f" scaleMultiplier = "4.0f">
     </Monster>
     
   </CharacterInfo>
