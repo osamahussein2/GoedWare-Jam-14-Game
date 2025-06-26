@@ -106,11 +106,11 @@ void Player::DrawCharacter()
     bushes["topBottomRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["bottomMiddleBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["topLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-    bushes["topRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 255 });
+    bushes["topRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["lowerTopLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-    bushes["lowerTopRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 255 });
+    bushes["lowerTopRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
     bushes["topBottomLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
-    bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 255 });
+    bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
 
     // Randomize which footsteps sound to play every frame if it's index isn't set yet
     if (footstepsIndexSet == false && inputEnabled) footstepsIndex = rand() % FOOTSTEPS_SIZE;
