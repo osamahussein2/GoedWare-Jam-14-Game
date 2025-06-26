@@ -89,7 +89,6 @@ void Engine::RunEngine()
             {
                 levels[1].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
                 Player::Instance()->DrawGameObjects();
-                spectre.DrawCharacter();
             }
 
             Player::Instance()->DrawCharacter();

@@ -91,6 +91,8 @@ private:
 	Puddle puddle;
 	Branch branch;
 
+	GameObject stair;
+
 	// Private functions
 	void CheckForLevel1BushCollision();
 	void CheckForLevel2BushCollision();

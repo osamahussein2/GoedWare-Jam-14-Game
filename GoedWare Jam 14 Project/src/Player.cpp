@@ -85,6 +85,8 @@ void Player::InitializeCharacter()
     level1Bushes["topBottomLeftBlockTile"].InitializeGameObject("Bush15");
     level1Bushes["topBottomRightBlockTile"].InitializeGameObject("Bush16");
 
+    stair.InitializeGameObject("Stair");
+
     level2Bushes["leftBushTile"].InitializeGameObject("Bush2-1");
     level2Bushes["rightBushTile"].InitializeGameObject("Bush2-2");
     level2Bushes["topLeftBushTile"].InitializeGameObject("Bush2-3");
@@ -132,7 +134,7 @@ void Player::DrawCharacter()
             level2Bushes["bottomBushTile"].GetRectangle().height || position.x < 0.0f || 
             position.x > level2Bushes["rightBushTile"].GetPosition().x + level2Bushes["rightBushTile"].GetRectangle().width)
         {
-            position = { 600.0f, 700.0f };
+            position = { 334.0f, 1390.0f };
             center = { position.x + 40.0f, position.y + 10.0f };
         }
 
@@ -245,14 +247,25 @@ void Player::DrawCharacter()
         if (footstepsIndexSet != false) footstepsIndexSet = false;
         if (noiseBars[currentTag].isNoiseIncreased != false) noiseBars[currentTag].isNoiseIncreased = false;
 
-        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
-            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
-
         // Play the character idle animation
         if (yFrame != 3) yFrame = 3;
     }
 
     if (IsKeyPressed(KEY_F) && inputEnabled) lightOn = !lightOn;
+
+    // If player collided with stairs, go to the next area
+    if (position.x + rectangle.width >= stair.GetPosition().x &&
+        position.x <= stair.GetPosition().x + stair.GetRectangle().width &&
+        position.y + rectangle.height >= stair.GetPosition().y &&
+        position.y <= stair.GetPosition().y + stair.GetRectangle().height && levelNumber == 1)
+    {
+        position = { 334.0f, 1390.0f };
+        center = { position.x + 40.0f, position.y + 10.0f };
+
+        if (!noiseBars[currentTag].GetNoiseMaxedOut()) noiseBars[currentTag].ResetCurrentNoiseValue();
+
+        levelNumber = 2;
+    }
 
     // If light isn't on, draw a black rectangle to give the illusion that lights are off
     if (!lightOn)
@@ -276,8 +289,6 @@ void Player::DrawCharacter()
 
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
     }
-
-    if (IsKeyPressed(KEY_SPACE)) printf("Player position: %f, %f\n", position.x, position.y);
 
     // Animate the player's facing direction according to last recorded velocity before stopping
     if (velocity.x < 0.0f) rectangle.width = -1.0f * static_cast<float>(texture.width) / totalFramesX;
@@ -310,6 +321,8 @@ void Player::UnloadCharacter()
 
     puddle.UnloadSprite();
     branch.UnloadSprite();
+
+    stair.UnloadSprite();
 }
 
 void Player::DrawGameObjects()
@@ -337,6 +350,8 @@ void Player::DrawGameObjects()
         puddle.DrawSprite(Color{ 255, 255, 255, 150 });
 
         branch.DrawSprite(Color{ 255, 255, 255, 150 });
+
+        stair.DrawSprite(Color{ 255, 255, 255, 150 });
 
         break;
 
@@ -410,6 +425,8 @@ void Player::ResetCharacter()
 {
     inputEnabled = true;
     hasFailed = false;
+
+    if (levelNumber != 1) levelNumber = 1;
 
     for (rapidxml::xml_node<>* fileNode = rootNode->first_node("CharacterInfo"); fileNode;
         fileNode = fileNode->next_sibling())
