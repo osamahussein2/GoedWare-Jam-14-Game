@@ -1,24 +1,11 @@
 #include "World.h"
 
-std::shared_ptr<World> World::worldInstance = nullptr;
-
 World::World()
 {
 }
 
 World::~World()
 {
-}
-
-std::shared_ptr<World> World::Instance()
-{
-    if (worldInstance == nullptr)
-    {
-        worldInstance = std::make_shared<World>();
-        return worldInstance;
-    }
-
-    return worldInstance;
 }
 
 void World::InitializeWorld(const char* childNode2_)

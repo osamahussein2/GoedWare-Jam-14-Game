@@ -49,6 +49,8 @@ public:
 	bool HasFailed() const;
 	void SetHasFailed(bool hasFailed_);
 
+	int GetLevelNumber() const { return levelNumber; }
+
 private:
 	Camera2D camera{};
 
@@ -74,12 +76,15 @@ private:
 
 	SoundAudio groundFootsteps[FOOTSTEPS_SIZE];
 
-	std::unordered_map<std::string, GameObject> bushes;
+	std::unordered_map<std::string, GameObject> level1Bushes, level2Bushes;
 
 	Vector2 lastPosition;
 
+	int levelNumber;
+
 	// Private functions
-	void CheckForBushCollision();
+	void CheckForLevel1BushCollision();
+	void CheckForLevel2BushCollision();
 };
 
 #endif

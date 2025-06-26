@@ -8,6 +8,7 @@
 #include "World.h"
 #include "Spectre.h"
 #include "Text.h"
+#include <array>
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
 
@@ -39,7 +40,10 @@ void Engine::RunEngine()
     MusicAudio trackDemo;
     Text gameOverText;
 
-    World::Instance()->InitializeWorld("WorldBackground");
+    std::array<World, 2> levels;
+
+    levels[0].InitializeWorld("WorldBackground");
+    levels[1].InitializeWorld("WorldBackground2");
 
     spectre.InitializeCharacter("Monster");
 
@@ -74,9 +78,19 @@ void Engine::RunEngine()
             // Update player camera and logic
             Player::Instance()->BeginFollowPlayerCamera();
 
-            World::Instance()->DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
+            if (Player::Instance()->GetLevelNumber() == 1) // Level 1
+            {
+                levels[0].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
 
-            spectre.DrawCharacter();
+                spectre.DrawCharacter();
+            }
+
+            else if (Player::Instance()->GetLevelNumber() == 2) // Level 2
+            {
+                levels[1].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
+
+                spectre.DrawCharacter();
+            }
 
             Player::Instance()->DrawCharacter();
             Player::Instance()->DrawUI();
@@ -103,7 +117,7 @@ void Engine::RunEngine()
         EndDrawing();
     }
 
-    World::Instance()->UnloadWorld();
+    for (int i = 0; i < levels.size(); i++) levels[i].UnloadWorld();
 
     spectre.UnloadCharacter();
 
