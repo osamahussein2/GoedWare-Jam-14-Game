@@ -567,7 +567,7 @@ void Player::CheckForLevel1BushCollision()
 void Player::CheckForLevel2BushCollision()
 {
     if (position.x + rectangle.width >= level2Bushes["leftBushTile"].GetPosition().x &&
-        position.x <= level2Bushes["leftBushTile"].GetPosition().x + level2Bushes["leftBushTile"].GetRectangle().width &&
+        position.x <= level2Bushes["leftBushTile"].GetPosition().x + level2Bushes["leftBushTile"].GetRectangle().width + 10.0f &&
         position.y + rectangle.height >= level2Bushes["leftBushTile"].GetPosition().y &&
         position.y <= level2Bushes["leftBushTile"].GetPosition().y + level2Bushes["leftBushTile"].GetRectangle().height
         ||
