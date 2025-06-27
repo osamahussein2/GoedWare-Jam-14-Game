@@ -6,11 +6,19 @@
 #include "Timer.h"
 #include "Audio.h"
 #include "World.h"
-#include "Spectre.h"
+#include "Monster.h"
 #include "Text.h"
 #include <array>
 
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
+
+MusicAudio trackDemo;
+Text gameOverText;
+
+std::array<World, 2> levels;
+
+std::array<Monster, 7> level1Monsters;
+std::array<Monster, 5> level2Monsters;
 
 Engine::Engine()
 {
@@ -36,18 +44,17 @@ void Engine::RunEngine()
     Window::Instance()->InitializeRaylibWindow();
     InitAudioDevice();
 
-    std::array<Spectre, 7> level1Spectres;
-    MusicAudio trackDemo;
-    Text gameOverText;
-
-    std::array<World, 2> levels;
-
     levels[0].InitializeWorld("WorldBackground");
     levels[1].InitializeWorld("WorldBackground2");
 
-    for (int i = 0; i < level1Spectres.size(); i++)
+    for (int i = 0; i < level1Monsters.size(); i++)
     {
-        level1Spectres[i].InitializeCharacter("Monster" + std::to_string(i + 1));
+        level1Monsters[i].InitializeCharacter("Monster" + std::to_string(i + 1));
+    }
+
+    for (int i = 0; i < level2Monsters.size(); i++)
+    {
+        level2Monsters[i].InitializeCharacter("Monster2." + std::to_string(i + 1));
     }
 
     Player::Instance()->InitializeCharacter();
@@ -86,13 +93,15 @@ void Engine::RunEngine()
                 levels[0].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
                 Player::Instance()->DrawGameObjects();
                 
-                for (int i = 0; i < level1Spectres.size(); i++) level1Spectres[i].DrawCharacter();
+                for (int i = 0; i < level1Monsters.size(); i++) level1Monsters[i].DrawCharacter();
             }
 
             else if (Player::Instance()->GetLevelNumber() == 2) // Level 2
             {
                 levels[1].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
                 Player::Instance()->DrawGameObjects();
+
+                for (int i = 0; i < level2Monsters.size(); i++) level2Monsters[i].DrawCharacter();
             }
 
             Player::Instance()->DrawCharacter();
@@ -108,9 +117,14 @@ void Engine::RunEngine()
             // Reset game state
             if (gameOverTime >= 2.0f)
             {
-                for (int i = 0; i < level1Spectres.size(); i++)
+                for (int i = 0; i < level1Monsters.size(); i++)
                 {
-                    level1Spectres[i].ResetCharacter("Monster" + std::to_string(i + 1));
+                    level1Monsters[i].ResetCharacter("Monster" + std::to_string(i + 1));
+                }
+
+                for (int i = 0; i < level2Monsters.size(); i++)
+                {
+                    level2Monsters[i].ResetCharacter("Monster2." + std::to_string(i + 1));
                 }
 
                 Player::Instance()->ResetCharacter();
@@ -126,7 +140,8 @@ void Engine::RunEngine()
 
     for (int i = 0; i < levels.size(); i++) levels[i].UnloadWorld();
 
-    for (int i = 0; i < level1Spectres.size(); i++) level1Spectres[i].UnloadCharacter();
+    for (int i = 0; i < level1Monsters.size(); i++) level1Monsters[i].UnloadCharacter();
+    for (int i = 0; i < level2Monsters.size(); i++) level2Monsters[i].UnloadCharacter();
 
     Player::Instance()->UnloadCharacter();
     trackDemo.UnloadMusic();

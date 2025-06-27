@@ -1,16 +1,16 @@
-#include "Spectre.h"
+#include "Monster.h"
 #include "Window.h"
 #include "Player.h"
 
-Spectre::Spectre() : failedTimer(0.0f), spectreState(SpectreState::SLEEPING), updateTime(), lastPosition()
+Monster::Monster() : failedTimer(0.0f), monsterState(MonsterState::SLEEPING), updateTime(), lastPosition()
 {
 }
 
-Spectre::~Spectre()
+Monster::~Monster()
 {
 }
 
-void Spectre::InitializeCharacter(std::string childNode2_)
+void Monster::InitializeCharacter(std::string childNode2_)
 {
     document.parse<0>(characterFile.data());
 
@@ -40,11 +40,11 @@ void Spectre::InitializeCharacter(std::string childNode2_)
     }
 }
 
-void Spectre::DrawCharacter()
+void Monster::DrawCharacter()
 {
     ChangeUpdateAnimationTime(); // Call the update animation time function
 
-    // Check for tile collision for spectre depending on current level
+    // Check for tile collision for monster depending on current level
     switch (Player::Instance()->GetLevelNumber())
     {
     case 1:
@@ -74,7 +74,7 @@ void Spectre::DrawCharacter()
     // Set the rectangle's y for change in animation state
     if (rectangle.y != rectangle.height * yFrame) rectangle.y = rectangle.height * yFrame;
 
-    /* If the spectre inside the player's collision bounds, set current noise to maximum if it isn't already to act as if
+    /* If the monster inside the player's collision bounds, set current noise to maximum if it isn't already to act as if
     the player is way too close to them */
     if (position.x + rectangle.width >= Player::Instance()->GetPosition().x &&
         position.x <= Player::Instance()->GetPosition().x + Player::Instance()->GetRectangle().width &&
@@ -92,28 +92,28 @@ void Spectre::DrawCharacter()
         float dy = Player::Instance()->GetPosition().y - position.y;
         float distance = sqrtf((dx * dx) + (dy * dy));
 
-        // If spectre is sleeping and not awake, transition to the wake up state
-        if (spectreState == SpectreState::SLEEPING && spectreState != SpectreState::WAKING_UP)
+        // If monster is sleeping and not awake, transition to the wake up state
+        if (monsterState == MonsterState::SLEEPING && monsterState != MonsterState::WAKING_UP)
         {
             yFrame = 1;
             runningTime = 0.0f;
             xFrame = 0;
 
-            spectreState = SpectreState::WAKING_UP;
+            monsterState = MonsterState::WAKING_UP;
         }
 
-        /* Else if spectre is waking up and the current x frame exceeds the total x frame number of the sprite, transition
+        /* Else if monster is waking up and the current x frame exceeds the total x frame number of the sprite, transition
         to moving state and reset animation frame values to 0 */
-        else if (spectreState == SpectreState::WAKING_UP && xFrame >= totalFramesX)
+        else if (monsterState == MonsterState::WAKING_UP && xFrame >= totalFramesX)
         {
             runningTime = 0.0f;
             xFrame = 0;
-            spectreState = SpectreState::MOVING;
+            monsterState = MonsterState::MOVING;
         }
 
-        /* Once the spectre state is equal to moving and its distance to the player is greater than the distance threshold,
+        /* Once the monster state is equal to moving and its distance to the player is greater than the distance threshold,
         start chasing the player */
-        if (distance >= distanceThreshold && spectreState == SpectreState::MOVING && Player::Instance()->GetPlayerInputEnabled())
+        if (distance >= distanceThreshold && monsterState == MonsterState::MOVING && Player::Instance()->GetPlayerInputEnabled())
         {
             // Get the direction vector
             Vector2 goToPlayer = Vector2Subtract(Player::Instance()->GetPosition(), position);
@@ -124,7 +124,7 @@ void Spectre::DrawCharacter()
             // Multiply direction vector by speed
             goToPlayer = Vector2Scale(goToPlayer, 4.0f);
 
-            // Move spectre towards player
+            // Move monster towards player
             position = Vector2Add(position, goToPlayer);
 
             if (goToPlayer.y <= -0.1f)
@@ -160,8 +160,8 @@ void Spectre::DrawCharacter()
             }
         }
 
-        // If the spectre gets close enough to the player and its state is set to moving, trigger fail state logic
-        else if (distance < distanceThreshold && spectreState == SpectreState::MOVING)
+        // If the monster gets close enough to the player and its state is set to moving, trigger fail state logic
+        else if (distance < distanceThreshold && monsterState == MonsterState::MOVING)
         {
             Player::Instance()->SetPlayerInputEnabled(false); // Disable any player input
 
@@ -183,23 +183,23 @@ void Spectre::DrawCharacter()
         if (yFrame != 0) yFrame = 0;
     }
 
-    // Render the spectre
+    // Render the monster
     if (Player::Instance()->GetLightOn()) DrawTextureRec(texture, rectangle, position, WHITE);
 }
 
-void Spectre::UnloadCharacter()
+void Monster::UnloadCharacter()
 {
     UnloadTexture(texture);
 }
 
-void Spectre::ResetCharacter(std::string childNode2_)
+void Monster::ResetCharacter(std::string childNode2_)
 {
     if (failedTimer != 0.0f) failedTimer = 0.0f;
 
     if (xFrame != 0) xFrame = 0;
     if (yFrame != 0) yFrame = 0;
 
-    if (spectreState != SpectreState::SLEEPING) spectreState = SpectreState::SLEEPING;
+    if (monsterState != MonsterState::SLEEPING) monsterState = MonsterState::SLEEPING;
 
     for (rapidxml::xml_node<>* fileNode = rootNode->first_node("CharacterInfo"); fileNode;
         fileNode = fileNode->next_sibling())
@@ -225,7 +225,7 @@ void Spectre::ResetCharacter(std::string childNode2_)
     }
 }
 
-void Spectre::ChangeUpdateAnimationTime()
+void Monster::ChangeUpdateAnimationTime()
 {
     // Change update time animation depending on current y animation frame
     switch (yFrame)

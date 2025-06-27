@@ -1,20 +1,20 @@
-#ifndef SPECTRES_H
-#define SPECTRES_H
+#ifndef MONSTER_H
+#define MONSTER_H
 
 #include "Character.h"
 
-enum class SpectreState
+enum class MonsterState
 {
 	SLEEPING,
 	WAKING_UP,
 	MOVING
 };
 
-class Spectre : public Character
+class Monster : public Character
 {
 public:
-	Spectre();
-	~Spectre();
+	Monster();
+	~Monster();
 
 	virtual void InitializeCharacter() override {}
 	virtual void InitializeCharacter(std::string childNode2_) override;
@@ -31,7 +31,7 @@ private:
 
 	static constexpr float distanceThreshold = 75.0f;
 
-	SpectreState spectreState;
+	MonsterState monsterState;
 
 	Vector2 lastPosition;
 

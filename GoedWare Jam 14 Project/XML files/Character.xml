@@ -38,6 +38,28 @@
             posY = "1382.0f" scaleMultiplier = "4.0f">
     </Monster7>
 
+    <!-- Level 2 enemies -->
+
+    <Monster2.1 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "331.0f"
+            posY = "815.0f" scaleMultiplier = "4.0f">
+    </Monster2.1>
+
+    <Monster2.2 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "517.0f"
+            posY = "448.0f" scaleMultiplier = "4.0f">
+    </Monster2.2>
+
+    <Monster2.3 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "586.0f"
+            posY = "218.0f" scaleMultiplier = "4.0f">
+    </Monster2.3>
+
+    <Monster2.4 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "1058.0f"
+            posY = "218.0f" scaleMultiplier = "4.0f">
+    </Monster2.4>
+
+    <Monster2.5 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "901.0f"
+            posY = "810.0f" scaleMultiplier = "4.0f">
+    </Monster2.5>
+
   </CharacterInfo>
   
 </Character>
