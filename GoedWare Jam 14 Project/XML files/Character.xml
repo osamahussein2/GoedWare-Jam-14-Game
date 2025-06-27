@@ -8,10 +8,36 @@
             posY = "255.0f" scaleMultiplier = "4.0f">
     </Player>
 
-    <Monster spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "448.0f"
-            posY = "805.0f" scaleMultiplier = "4.0f">
-    </Monster>
+    <!-- Level 1 enemies -->
     
+    <Monster1 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "448.0f"
+            posY = "805.0f" scaleMultiplier = "4.0f">
+    </Monster1>
+
+    <Monster2 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "1214.0f"
+            posY = "810.0f" scaleMultiplier = "4.0f">
+    </Monster2>
+
+    <Monster3 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "823.0f"
+            posY = "1042.0f" scaleMultiplier = "4.0f">
+    </Monster3>
+
+    <Monster4 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "448.0f"
+            posY = "1187.0f" scaleMultiplier = "4.0f">
+    </Monster4>
+
+    <Monster5 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "259.0f"
+            posY = "1380.0f" scaleMultiplier = "4.0f">
+    </Monster5>
+
+    <Monster6 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "1220.0f"
+            posY = "1184.0f" scaleMultiplier = "4.0f">
+    </Monster6>
+
+    <Monster7 spritePath = "res/sprites/Monst1-Sheet2.png" totalFramesX = "4" totalFramesY = "5" posX = "1407.0f"
+            posY = "1382.0f" scaleMultiplier = "4.0f">
+    </Monster7>
+
   </CharacterInfo>
   
 </Character>

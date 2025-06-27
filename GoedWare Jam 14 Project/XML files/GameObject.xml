@@ -69,7 +69,7 @@
              scaleMultiplier = "5.0f">
     </Puddle1>
 
-    <Branch1 spritePath = "res/sprites/Branch.png" posX = "1100.0f" posY = "900.0f" totalFramesX = "4"
+    <Branch1 spritePath = "res/sprites/Branch.png" posX = "983.0f" posY = "754.0f" totalFramesX = "4"
              scaleMultiplier = "5.0f">
     </Branch1>
     

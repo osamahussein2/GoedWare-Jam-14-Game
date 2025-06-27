@@ -36,7 +36,7 @@ void Engine::RunEngine()
     Window::Instance()->InitializeRaylibWindow();
     InitAudioDevice();
 
-    Spectre spectre;
+    std::array<Spectre, 7> level1Spectres;
     MusicAudio trackDemo;
     Text gameOverText;
 
@@ -45,7 +45,10 @@ void Engine::RunEngine()
     levels[0].InitializeWorld("WorldBackground");
     levels[1].InitializeWorld("WorldBackground2");
 
-    spectre.InitializeCharacter("Monster");
+    for (int i = 0; i < level1Spectres.size(); i++)
+    {
+        level1Spectres[i].InitializeCharacter("Monster" + std::to_string(i + 1));
+    }
 
     Player::Instance()->InitializeCharacter();
 
@@ -82,7 +85,8 @@ void Engine::RunEngine()
             {
                 levels[0].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
                 Player::Instance()->DrawGameObjects();
-                spectre.DrawCharacter();
+                
+                for (int i = 0; i < level1Spectres.size(); i++) level1Spectres[i].DrawCharacter();
             }
 
             else if (Player::Instance()->GetLevelNumber() == 2) // Level 2
@@ -104,7 +108,11 @@ void Engine::RunEngine()
             // Reset game state
             if (gameOverTime >= 2.0f)
             {
-                spectre.ResetCharacter("Monster");
+                for (int i = 0; i < level1Spectres.size(); i++)
+                {
+                    level1Spectres[i].ResetCharacter("Monster" + std::to_string(i + 1));
+                }
+
                 Player::Instance()->ResetCharacter();
 
                 gameOverTime = 0.0f;
@@ -118,7 +126,7 @@ void Engine::RunEngine()
 
     for (int i = 0; i < levels.size(); i++) levels[i].UnloadWorld();
 
-    spectre.UnloadCharacter();
+    for (int i = 0; i < level1Spectres.size(); i++) level1Spectres[i].UnloadCharacter();
 
     Player::Instance()->UnloadCharacter();
     trackDemo.UnloadMusic();

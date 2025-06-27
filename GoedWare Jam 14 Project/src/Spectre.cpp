@@ -113,7 +113,7 @@ void Spectre::DrawCharacter()
 
         /* Once the spectre state is equal to moving and its distance to the player is greater than the distance threshold,
         start chasing the player */
-        if (distance >= distanceThreshold && spectreState == SpectreState::MOVING)
+        if (distance >= distanceThreshold && spectreState == SpectreState::MOVING && Player::Instance()->GetPlayerInputEnabled())
         {
             // Get the direction vector
             Vector2 goToPlayer = Vector2Subtract(Player::Instance()->GetPosition(), position);
