@@ -97,7 +97,7 @@ void Player::InitializeCharacter()
 
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
 
-    puddle.InitializeGameObject("Puddle1");
+    for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].InitializeGameObject("Puddle" + std::to_string(i + 1));
 
     branch.InitializeGameObject("Branch1");
 }
@@ -179,8 +179,21 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
-            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        switch (levelNumber)
+        {
+        case 1:
+            if (!level1Puddles[0].GetPlayerSteppedOnPuddle() && !level1Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level1Puddles[2].GetPlayerSteppedOnPuddle() && !level1Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !branch.GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+            break;
+
+        case 2:
+            break;
+
+        default:
+            break;
+        }
 
         // Set velocity to move up only if the player's y position is greater than the world map's y position
         velocity.y = -100.0f;
@@ -197,8 +210,21 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch())
-            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        switch (levelNumber)
+        {
+        case 1:
+            if (!level1Puddles[0].GetPlayerSteppedOnPuddle() && !level1Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level1Puddles[2].GetPlayerSteppedOnPuddle() && !level1Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !branch.GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+            break;
+
+        case 2:
+            break;
+
+        default:
+            break;
+        }
 
         // Set velocity to move down only if the player's y position is less than the world map's height
         velocity.y = 100.0f;
@@ -215,8 +241,21 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
-            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        switch (levelNumber)
+        {
+        case 1:
+            if (!level1Puddles[0].GetPlayerSteppedOnPuddle() && !level1Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level1Puddles[2].GetPlayerSteppedOnPuddle() && !level1Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !branch.GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+            break;
+
+        case 2:
+            break;
+
+        default:
+            break;
+        }
 
         // Set velocity to move left only if the player's x position is greater than the world map's x position
         velocity.x = -100.0f;
@@ -233,8 +272,21 @@ void Player::DrawCharacter()
         // Increase current noise value
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
 
-        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
-            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        switch (levelNumber)
+        {
+        case 1:
+            if (!level1Puddles[0].GetPlayerSteppedOnPuddle() && !level1Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level1Puddles[2].GetPlayerSteppedOnPuddle() && !level1Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !branch.GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+            break;
+
+        case 2:
+            break;
+
+        default:
+            break;
+        }
 
         // Set velocity to move right only if the player's x position is less than the world map's width
         velocity.x = 100.0f;
@@ -284,8 +336,21 @@ void Player::DrawCharacter()
         // Draw circle as a light for the player
         DrawCircleGradient(center.x, center.y, circleRadius, Color{ 255, 255, 255, 150 }, Color{ 255, 255, 255, 30 });
 
-        if (!puddle.GetPlayerSteppedOnPuddle() && !branch.GetPlayerSteppedOnBranch()) 
-            noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+        switch (levelNumber)
+        {
+        case 1:
+            if (!level1Puddles[0].GetPlayerSteppedOnPuddle() && !level1Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level1Puddles[2].GetPlayerSteppedOnPuddle() && !level1Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !branch.GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
+            break;
+
+        case 2:
+            break;
+
+        default:
+            break;
+        }
 
         if (noiseBars[currentTag].isNoiseIncreased != true) noiseBars[currentTag].isNoiseIncreased = true;
     }
@@ -319,7 +384,7 @@ void Player::UnloadCharacter()
         bushMaps2.second.UnloadSprite();
     }
 
-    puddle.UnloadSprite();
+    for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].UnloadSprite();
     branch.UnloadSprite();
 
     stair.UnloadSprite();
@@ -347,7 +412,7 @@ void Player::DrawGameObjects()
         level1Bushes["topBottomLeftBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level1Bushes["topBottomRightBlockTile"].DrawSprite(Color{ 255, 255, 255, 150 });
 
-        puddle.DrawSprite(Color{ 255, 255, 255, 150 });
+        for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].DrawSprite(Color{255, 255, 255, 150});
 
         branch.DrawSprite(Color{ 255, 255, 255, 150 });
 
@@ -466,7 +531,7 @@ void Player::ResetCharacter()
     noiseBars[currentTag].ResetCurrentNoiseValue();
     timer.ResetTimer();
 
-    puddle.ResetPuddle("Puddle1");
+    for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].ResetPuddle("Puddle" + std::to_string(i + 1));
 
     branch.ResetBranch("Branch1");
 }

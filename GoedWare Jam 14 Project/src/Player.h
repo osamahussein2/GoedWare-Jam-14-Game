@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "Puddle.h"
 #include "Branch.h"
+#include <array>
 
 constexpr int FOOTSTEPS_SIZE = 8;
 
@@ -91,7 +92,7 @@ private:
 
 	int levelNumber;
 
-	Puddle puddle;
+	std::array<Puddle, 4> level1Puddles;
 	Branch branch;
 
 	GameObject stair;

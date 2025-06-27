@@ -25,6 +25,8 @@ private:
 	int xFrame;
 
 	bool playerSteppedOnPuddle;
+
+	float steppedOnPuddleTime;
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Window.h"
 
-Puddle::Puddle() : runningTime(), totalFramesX(), xFrame(), playerSteppedOnPuddle()
+Puddle::Puddle() : runningTime(), totalFramesX(), xFrame(), playerSteppedOnPuddle(), steppedOnPuddleTime()
 {
 }
 
@@ -54,7 +54,18 @@ void Puddle::DrawSprite(Color color_)
         xFrame++;
     }
 
-    if (playerSteppedOnPuddle) Player::Instance()->SetPlayerNoiseVelocity(50.0f);
+    if (playerSteppedOnPuddle)
+    {
+        steppedOnPuddleTime += Window::Instance()->GetDeltaTime();
+        Player::Instance()->SetPlayerNoiseVelocity(50.0f);
+
+        if (steppedOnPuddleTime >= 0.3f)
+        {
+            xFrame = 0;
+            playerSteppedOnPuddle = false;
+            steppedOnPuddleTime = 0.0f;
+        }
+    }
 
     // If player has collided with the puddle and the bool is false, change the bool to true to trigger puddle animation
     if (Player::Instance()->GetPosition().x + Player::Instance()->GetRectangle().width >= position.x &&
@@ -63,13 +74,6 @@ void Puddle::DrawSprite(Color color_)
         Player::Instance()->GetPosition().y <= position.y + rectangle.height && !playerSteppedOnPuddle)
     {
         playerSteppedOnPuddle = true;
-    }
-
-    // Once the puddle animation has finished, reset the frame animation number and set the bool to false again
-    else if (playerSteppedOnPuddle && xFrame >= totalFramesX)
-    {
-        xFrame = 0;
-        playerSteppedOnPuddle = false;
     }
 
     // Render puddle when player's light is on

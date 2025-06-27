@@ -64,10 +64,26 @@
     </Stair>
 
     <!--Level 1 spritesheet with animations-->
-    
+
+    821.713684, 901.193481
+    Player position: 631.421997, 1019.666077
+    Player position: 1000.189880, 1019.666077
+
     <Puddle1 spritePath = "res/sprites/Puddle.png" posX = "800.0f" posY = "600.0f" totalFramesX = "4" 
              scaleMultiplier = "5.0f">
     </Puddle1>
+
+    <Puddle2 spritePath = "res/sprites/Puddle.png" posX = "822.0f" posY = "901.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle2>
+
+    <Puddle3 spritePath = "res/sprites/Puddle.png" posX = "631.0f" posY = "1020.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle3>
+
+    <Puddle4 spritePath = "res/sprites/Puddle.png" posX = "1000.0f" posY = "1020.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle4>
 
     <Branch1 spritePath = "res/sprites/Branch.png" posX = "983.0f" posY = "754.0f" totalFramesX = "4"
              scaleMultiplier = "5.0f">
