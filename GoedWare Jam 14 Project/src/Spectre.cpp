@@ -2,7 +2,7 @@
 #include "Window.h"
 #include "Player.h"
 
-Spectre::Spectre() : failedTimer(0.0f), spectreState(SpectreState::SLEEPING), updateTime()
+Spectre::Spectre() : failedTimer(0.0f), spectreState(SpectreState::SLEEPING), updateTime(), lastPosition()
 {
 }
 
@@ -43,6 +43,21 @@ void Spectre::InitializeCharacter(std::string childNode2_)
 void Spectre::DrawCharacter()
 {
     ChangeUpdateAnimationTime(); // Call the update animation time function
+
+    // Check for tile collision for spectre depending on current level
+    switch (Player::Instance()->GetLevelNumber())
+    {
+    case 1:
+        Player::Instance()->CheckForLevel1BushCollision(position, lastPosition, rectangle);
+        break;
+
+    case 2:
+        Player::Instance()->CheckForLevel2BushCollision(position, lastPosition, rectangle);
+        break;
+
+    default:
+        break;
+    }
 
     // Increment running time for checking if it reaches update animation time
     runningTime += Window::Instance()->GetDeltaTime();

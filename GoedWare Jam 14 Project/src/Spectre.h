@@ -33,6 +33,8 @@ private:
 
 	SpectreState spectreState;
 
+	Vector2 lastPosition;
+
 	// Private functions
 	void ChangeUpdateAnimationTime();
 };

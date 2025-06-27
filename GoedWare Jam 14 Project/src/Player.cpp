@@ -600,3 +600,132 @@ void Player::CheckForLevel2BushCollision()
         if (lastPosition != position) lastPosition = position;
     }
 }
+
+void Player::CheckForLevel1BushCollision(Vector2& position_, Vector2& lastPosition_, Rectangle& rectangle_)
+{
+    // Check if any of the characters/objects collided with any of the level1Bushes
+    if (position_.x + rectangle_.width >= level1Bushes["topBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topBushTile"].GetPosition().x + level1Bushes["topBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topBushTile"].GetPosition().y + level1Bushes["topBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topLeftBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topLeftBushTile"].GetPosition().x + level1Bushes["topLeftBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topLeftBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topLeftBushTile"].GetPosition().y + level1Bushes["topLeftBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topRightBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topRightBushTile"].GetPosition().x + level1Bushes["topRightBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topRightBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topRightBushTile"].GetPosition().y + level1Bushes["topRightBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["lowerTopLeftBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["lowerTopLeftBushTile"].GetPosition().x + level1Bushes["lowerTopLeftBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["lowerTopLeftBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["lowerTopLeftBushTile"].GetPosition().y + level1Bushes["lowerTopLeftBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["lowerTopRightBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["lowerTopRightBushTile"].GetPosition().x + level1Bushes["lowerTopRightBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["lowerTopRightBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["lowerTopRightBushTile"].GetPosition().y + level1Bushes["lowerTopRightBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["middleLeftBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["middleLeftBushTile"].GetPosition().x + level1Bushes["middleLeftBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["middleLeftBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["middleLeftBushTile"].GetPosition().y + level1Bushes["middleLeftBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["middleRightBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["middleRightBushTile"].GetPosition().x + level1Bushes["middleRightBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["middleRightBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["middleRightBushTile"].GetPosition().y + level1Bushes["middleRightBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topBottomLeftBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topBottomLeftBushTile"].GetPosition().x + level1Bushes["topBottomLeftBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topBottomLeftBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topBottomLeftBushTile"].GetPosition().y + level1Bushes["topBottomLeftBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topBottomRightBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topBottomRightBushTile"].GetPosition().x + level1Bushes["topBottomRightBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topBottomRightBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topBottomRightBushTile"].GetPosition().y + level1Bushes["topBottomRightBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["bottomMiddleBushTile"].GetPosition().x &&
+        position_.x <= level1Bushes["bottomMiddleBushTile"].GetPosition().x + level1Bushes["bottomMiddleBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["bottomMiddleBushTile"].GetPosition().y &&
+        position_.y <= level1Bushes["bottomMiddleBushTile"].GetPosition().y + level1Bushes["bottomMiddleBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topLeftBlockTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topLeftBlockTile"].GetPosition().x + level1Bushes["topLeftBlockTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topLeftBlockTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topLeftBlockTile"].GetPosition().y + level1Bushes["topLeftBlockTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topRightBlockTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topRightBlockTile"].GetPosition().x + level1Bushes["topRightBlockTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topRightBlockTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topRightBlockTile"].GetPosition().y + level1Bushes["topRightBlockTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["lowerTopLeftBlockTile"].GetPosition().x &&
+        position_.x <= level1Bushes["lowerTopLeftBlockTile"].GetPosition().x + level1Bushes["lowerTopLeftBlockTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["lowerTopLeftBlockTile"].GetPosition().y &&
+        position_.y <= level1Bushes["lowerTopLeftBlockTile"].GetPosition().y + level1Bushes["lowerTopLeftBlockTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["lowerTopRightBlockTile"].GetPosition().x &&
+        position_.x <= level1Bushes["lowerTopRightBlockTile"].GetPosition().x + level1Bushes["lowerTopRightBlockTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["lowerTopRightBlockTile"].GetPosition().y &&
+        position_.y <= level1Bushes["lowerTopRightBlockTile"].GetPosition().y + level1Bushes["lowerTopRightBlockTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topBottomLeftBlockTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topBottomLeftBlockTile"].GetPosition().x + level1Bushes["topBottomLeftBlockTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topBottomLeftBlockTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topBottomLeftBlockTile"].GetPosition().y + level1Bushes["topBottomLeftBlockTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level1Bushes["topBottomRightBlockTile"].GetPosition().x &&
+        position_.x <= level1Bushes["topBottomRightBlockTile"].GetPosition().x + level1Bushes["topBottomRightBlockTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level1Bushes["topBottomRightBlockTile"].GetPosition().y &&
+        position_.y <= level1Bushes["topBottomRightBlockTile"].GetPosition().y + level1Bushes["topBottomRightBlockTile"].GetRectangle().height)
+    {
+        if (position_ != lastPosition_) position_ = lastPosition_;
+    }
+
+    else
+    {
+        if (lastPosition_ != position_) lastPosition_ = position_;
+    }
+}
+
+void Player::CheckForLevel2BushCollision(Vector2& position_, Vector2& lastPosition_, Rectangle& rectangle_)
+{
+    // Check if any of the characters/objects collided with any of the level2Bushes
+    if (position_.x + rectangle_.width >= level2Bushes["leftBushTile"].GetPosition().x &&
+        position_.x <= level2Bushes["leftBushTile"].GetPosition().x + level2Bushes["leftBushTile"].GetRectangle().width + 10.0f &&
+        position_.y + rectangle_.height >= level2Bushes["leftBushTile"].GetPosition().y &&
+        position_.y <= level2Bushes["leftBushTile"].GetPosition().y + level2Bushes["leftBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Bushes["rightBushTile"].GetPosition().x &&
+        position_.x <= level2Bushes["rightBushTile"].GetPosition().x + level2Bushes["rightBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Bushes["rightBushTile"].GetPosition().y &&
+        position_.y <= level2Bushes["rightBushTile"].GetPosition().y + level2Bushes["rightBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Bushes["topLeftBushTile"].GetPosition().x - 100.0f &&
+        position_.x <= level2Bushes["topLeftBushTile"].GetPosition().x + level2Bushes["topLeftBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Bushes["topLeftBushTile"].GetPosition().y &&
+        position_.y <= level2Bushes["topLeftBushTile"].GetPosition().y + level2Bushes["topLeftBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Bushes["topRightBushTile"].GetPosition().x - 100.0f &&
+        position_.x <= level2Bushes["topRightBushTile"].GetPosition().x + level2Bushes["topRightBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Bushes["topRightBushTile"].GetPosition().y &&
+        position_.y <= level2Bushes["topRightBushTile"].GetPosition().y + level2Bushes["topRightBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Bushes["bottomBushTile"].GetPosition().x - 100.0f &&
+        position_.x <= level2Bushes["bottomBushTile"].GetPosition().x + level2Bushes["bottomBushTile"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Bushes["bottomBushTile"].GetPosition().y &&
+        position_.y <= level2Bushes["bottomBushTile"].GetPosition().y + level2Bushes["bottomBushTile"].GetRectangle().height)
+    {
+        if (position_ != lastPosition_) position_ = lastPosition_;
+    }
+
+    else
+    {
+        if (lastPosition_ != position_) lastPosition_ = position_;
+    }
+}

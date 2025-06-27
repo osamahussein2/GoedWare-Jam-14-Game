@@ -57,6 +57,9 @@ public:
 
 	void SetPlayerNoiseVelocity(float noiseVelocity_);
 
+	void CheckForLevel1BushCollision(Vector2& position_, Vector2& lastPosition_, Rectangle& rectangle_);
+	void CheckForLevel2BushCollision(Vector2& position_, Vector2& lastPosition_, Rectangle& rectangle_);
+
 private:
 	Camera2D camera{};
 
