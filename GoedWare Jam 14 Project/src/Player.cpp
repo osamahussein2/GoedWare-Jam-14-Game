@@ -10,7 +10,7 @@ const std::string fullTag = "Full";
 const std::string currentTag = "Current";
 
 Player::Player() : lightOn(false), footstepsIndexSet(false), footstepsIndex(0), inputEnabled(true), hasFailed(false),
-center(), lastPosition(), levelNumber(1)
+center(), lastPosition(), levelNumber(1), hasCompletedLevel(false)
 {
 }
 
@@ -100,6 +100,8 @@ void Player::InitializeCharacter()
     level2Void["TopRightVoid"].InitializeGameObject("Void2-5");
     level2Void["RightVoid"].InitializeGameObject("Void2-6");
 
+    levelComplete.InitializeSprite("LevelCompleteTrigger");
+
     timer.InitializeTimer();
 
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
@@ -149,6 +151,16 @@ void Player::DrawCharacter()
 
         // Call the check for bush collision function for collision detection and response
         CheckForLevel2BushCollision();
+
+        // Check if the player has collided with the level complete trigger to set has completed level boolean to true
+        if (position.x + rectangle.width >= levelComplete.GetRectangle().x &&
+            position.x <= levelComplete.GetRectangle().x + levelComplete.GetRectangle().width &&
+            position.y + rectangle.height >= levelComplete.GetRectangle().y &&
+            position.y <= levelComplete.GetRectangle().y + levelComplete.GetRectangle().height && !hasCompletedLevel)
+        {
+            SetHasCompletedLevel(true);
+        }
+
         break;
 
     default:
@@ -480,6 +492,8 @@ void Player::DrawGameObjects()
         level2Void["TopRightVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
         level2Void["RightVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
 
+        levelComplete.DrawSprite(ColorAlpha(BLACK, 0.0f)); // Set the level complete trigger to be fully transparent
+
         for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].DrawSprite(Color{ 255, 255, 255, 150 });
         for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].DrawSprite(Color{ 255, 255, 255, 150 });
 
@@ -542,10 +556,21 @@ void Player::SetHasFailed(bool hasFailed_)
     if (hasFailed != hasFailed_) hasFailed = hasFailed_;
 }
 
+bool Player::HasCompletedLevel() const
+{
+    return hasCompletedLevel;
+}
+
+void Player::SetHasCompletedLevel(bool hasCompletedLevel_)
+{
+    if (hasCompletedLevel != hasCompletedLevel_) hasCompletedLevel = hasCompletedLevel_;
+}
+
 void Player::ResetCharacter()
 {
     inputEnabled = true;
     hasFailed = false;
+    hasCompletedLevel = false;
 
     if (levelNumber != 1) levelNumber = 1;
 
@@ -704,7 +729,7 @@ void Player::CheckForLevel2BushCollision()
         position.y + rectangle.height >= level2Bushes["topLeftBushTile"].GetPosition().y &&
         position.y <= level2Bushes["topLeftBushTile"].GetPosition().y + level2Bushes["topLeftBushTile"].GetRectangle().height
         ||
-        position.x + rectangle.width >= level2Bushes["topRightBushTile"].GetPosition().x - 100.0f &&
+        position.x + rectangle.width >= level2Bushes["topRightBushTile"].GetPosition().x &&
         position.x <= level2Bushes["topRightBushTile"].GetPosition().x + level2Bushes["topRightBushTile"].GetRectangle().width &&
         position.y + rectangle.height >= level2Bushes["topRightBushTile"].GetPosition().y &&
         position.y <= level2Bushes["topRightBushTile"].GetPosition().y + level2Bushes["topRightBushTile"].GetRectangle().height
@@ -864,7 +889,7 @@ void Player::CheckForLevel2BushCollision(Vector2& position_, Vector2& lastPositi
         position_.y + rectangle_.height >= level2Bushes["topLeftBushTile"].GetPosition().y &&
         position_.y <= level2Bushes["topLeftBushTile"].GetPosition().y + level2Bushes["topLeftBushTile"].GetRectangle().height
         ||
-        position_.x + rectangle_.width >= level2Bushes["topRightBushTile"].GetPosition().x - 100.0f &&
+        position_.x + rectangle_.width >= level2Bushes["topRightBushTile"].GetPosition().x &&
         position_.x <= level2Bushes["topRightBushTile"].GetPosition().x + level2Bushes["topRightBushTile"].GetRectangle().width &&
         position_.y + rectangle_.height >= level2Bushes["topRightBushTile"].GetPosition().y &&
         position_.y <= level2Bushes["topRightBushTile"].GetPosition().y + level2Bushes["topRightBushTile"].GetRectangle().height

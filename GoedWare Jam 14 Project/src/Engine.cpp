@@ -13,7 +13,7 @@
 std::shared_ptr<Engine> Engine::engineInstance = nullptr;
 
 MusicAudio trackDemo;
-Text gameOverText;
+Text gameOverText, levelCompleteText;
 
 std::array<World, 2> levels;
 
@@ -63,10 +63,12 @@ void Engine::RunEngine()
     trackDemo.SetMusicAudioVolume(0.2f);
 
     gameOverText.InitializeText();
+    levelCompleteText.InitializeText();
 
     Window::Instance()->SetFPS();
 
     float gameOverTime{};
+    float levelCompleteTime{};
 
     // Main game loop
     while (!WindowShouldClose())
@@ -85,27 +87,55 @@ void Engine::RunEngine()
 
         if (!Player::Instance()->HasFailed()) // Player hasn't failed the level yet
         {
-            // Update player camera and logic
-            Player::Instance()->BeginFollowPlayerCamera();
-
-            if (Player::Instance()->GetLevelNumber() == 1) // Level 1
+            if (!Player::Instance()->HasCompletedLevel())
             {
-                levels[0].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
-                Player::Instance()->DrawGameObjects();
-                
-                for (int i = 0; i < level1Monsters.size(); i++) level1Monsters[i].DrawCharacter();
+                // Update player camera and logic
+                Player::Instance()->BeginFollowPlayerCamera();
+
+                if (Player::Instance()->GetLevelNumber() == 1) // Level 1
+                {
+                    levels[0].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
+                    Player::Instance()->DrawGameObjects();
+
+                    for (int i = 0; i < level1Monsters.size(); i++) level1Monsters[i].DrawCharacter();
+                }
+
+                else if (Player::Instance()->GetLevelNumber() == 2) // Level 2
+                {
+                    levels[1].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
+                    Player::Instance()->DrawGameObjects();
+
+                    for (int i = 0; i < level2Monsters.size(); i++) level2Monsters[i].DrawCharacter();
+                }
+
+                Player::Instance()->DrawCharacter();
+                Player::Instance()->DrawUI();
             }
 
-            else if (Player::Instance()->GetLevelNumber() == 2) // Level 2
+            else if (Player::Instance()->HasCompletedLevel())
             {
-                levels[1].DrawWorld(Player::Instance()->GetLightOn(), Color{ 255, 255, 255, 150 });
-                Player::Instance()->DrawGameObjects();
+                levelCompleteText.RenderText("LevelCompleteText", GREEN);
 
-                for (int i = 0; i < level2Monsters.size(); i++) level2Monsters[i].DrawCharacter();
+                levelCompleteTime += Window::Instance()->GetDeltaTime(); // Increment game over time
+
+                // Reset game state
+                if (levelCompleteTime >= 2.0f)
+                {
+                    for (int i = 0; i < level1Monsters.size(); i++)
+                    {
+                        level1Monsters[i].ResetCharacter("Monster" + std::to_string(i + 1));
+                    }
+
+                    for (int i = 0; i < level2Monsters.size(); i++)
+                    {
+                        level2Monsters[i].ResetCharacter("Monster2." + std::to_string(i + 1));
+                    }
+
+                    Player::Instance()->ResetCharacter();
+
+                    levelCompleteTime = 0.0f;
+                }
             }
-
-            Player::Instance()->DrawCharacter();
-            Player::Instance()->DrawUI();
         }
 
         else if (Player::Instance()->HasFailed()) // Otherwise, player failed the level

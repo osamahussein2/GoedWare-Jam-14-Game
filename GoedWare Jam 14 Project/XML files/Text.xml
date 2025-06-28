@@ -9,6 +9,9 @@
     <GameOverText text = "Game Over!" textX = "350" textY = "350" fontSize = "50">
     </GameOverText>
 
+    <LevelCompleteText text = "That's it! Thanks for playing the demo!" textX = "100" textY = "350" fontSize = "40">
+    </LevelCompleteText>
+
 </TextInfo>
 
 </Text>

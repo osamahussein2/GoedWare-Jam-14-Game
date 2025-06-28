@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "Puddle.h"
 #include "Branch.h"
+#include "LevelComplete.h"
 #include <array>
 
 constexpr int FOOTSTEPS_SIZE = 8;
@@ -54,6 +55,9 @@ public:
 	bool HasFailed() const;
 	void SetHasFailed(bool hasFailed_);
 
+	bool HasCompletedLevel() const;
+	void SetHasCompletedLevel(bool hasCompletedLevel_);
+
 	int GetLevelNumber() const { return levelNumber; }
 
 	void SetPlayerNoiseVelocity(float noiseVelocity_);
@@ -69,6 +73,7 @@ private:
 	bool inputEnabled;
 
 	bool hasFailed;
+	bool hasCompletedLevel;
 
 	const float updateTime{ 1.0f / 10.0f };
 
@@ -100,6 +105,8 @@ private:
 	std::array<Branch, 3> level2Branches;
 
 	GameObject stair;
+
+	LevelComplete levelComplete;
 
 	// Private functions
 	void CheckForLevel1BushCollision();
