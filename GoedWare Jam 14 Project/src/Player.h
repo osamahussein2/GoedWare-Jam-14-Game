@@ -95,6 +95,9 @@ private:
 	std::array<Puddle, 4> level1Puddles;
 	std::array<Branch, 4> level1Branches;
 
+	std::array<Puddle, 5> level2Puddles;
+	std::array<Branch, 3> level2Branches;
+
 	GameObject stair;
 
 	// Private functions

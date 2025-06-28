@@ -3,7 +3,7 @@
 <Text>
   <TextInfo>
 
-    <TimerText minutes = "5" seconds = "1.0f" textX = "10" textY = "100" fontSize = "30">
+    <TimerText minutes = "1" seconds = "31.0f" textX = "10" textY = "100" fontSize = "30">
     </TimerText>
 
     <GameOverText text = "Game Over!" textX = "350" textY = "350" fontSize = "50">

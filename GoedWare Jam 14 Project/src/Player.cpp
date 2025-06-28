@@ -99,6 +99,9 @@ void Player::InitializeCharacter()
 
     for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].InitializeGameObject("Puddle" + std::to_string(i + 1));
     for (int i = 0; i < level1Branches.size(); i++) level1Branches[i].InitializeGameObject("Branch" + std::to_string(i + 1));
+
+    for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].InitializeGameObject("Puddle2." + std::to_string(i + 1));
+    for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].InitializeGameObject("Branch2." + std::to_string(i + 1));
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -189,6 +192,11 @@ void Player::DrawCharacter()
             break;
 
         case 2:
+            if (!level2Puddles[0].GetPlayerSteppedOnPuddle() && !level2Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[2].GetPlayerSteppedOnPuddle() && !level2Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[4].GetPlayerSteppedOnPuddle() && !level2Branches[0].GetPlayerSteppedOnBranch() && 
+                !level2Branches[1].GetPlayerSteppedOnBranch() && !level2Branches[2].GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
             break;
 
         default:
@@ -221,6 +229,11 @@ void Player::DrawCharacter()
             break;
 
         case 2:
+            if (!level2Puddles[0].GetPlayerSteppedOnPuddle() && !level2Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[2].GetPlayerSteppedOnPuddle() && !level2Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[4].GetPlayerSteppedOnPuddle() && !level2Branches[0].GetPlayerSteppedOnBranch() &&
+                !level2Branches[1].GetPlayerSteppedOnBranch() && !level2Branches[2].GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
             break;
 
         default:
@@ -253,6 +266,11 @@ void Player::DrawCharacter()
             break;
 
         case 2:
+            if (!level2Puddles[0].GetPlayerSteppedOnPuddle() && !level2Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[2].GetPlayerSteppedOnPuddle() && !level2Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[4].GetPlayerSteppedOnPuddle() && !level2Branches[0].GetPlayerSteppedOnBranch() &&
+                !level2Branches[1].GetPlayerSteppedOnBranch() && !level2Branches[2].GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
             break;
 
         default:
@@ -285,6 +303,11 @@ void Player::DrawCharacter()
             break;
 
         case 2:
+            if (!level2Puddles[0].GetPlayerSteppedOnPuddle() && !level2Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[2].GetPlayerSteppedOnPuddle() && !level2Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[4].GetPlayerSteppedOnPuddle() && !level2Branches[0].GetPlayerSteppedOnBranch() &&
+                !level2Branches[1].GetPlayerSteppedOnBranch() && !level2Branches[2].GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
             break;
 
         default:
@@ -350,6 +373,11 @@ void Player::DrawCharacter()
             break;
 
         case 2:
+            if (!level2Puddles[0].GetPlayerSteppedOnPuddle() && !level2Puddles[1].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[2].GetPlayerSteppedOnPuddle() && !level2Puddles[3].GetPlayerSteppedOnPuddle() &&
+                !level2Puddles[4].GetPlayerSteppedOnPuddle() && !level2Branches[0].GetPlayerSteppedOnBranch() &&
+                !level2Branches[1].GetPlayerSteppedOnBranch() && !level2Branches[2].GetPlayerSteppedOnBranch())
+                noiseBars[currentTag].SetCurrentNoiseVelocity(noiseVelocity);
             break;
 
         default:
@@ -391,6 +419,9 @@ void Player::UnloadCharacter()
     for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].UnloadSprite();
     for (int i = 0; i < level1Branches.size(); i++) level1Branches[i].UnloadSprite();
 
+    for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].UnloadSprite();
+    for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].UnloadSprite();
+
     stair.UnloadSprite();
 }
 
@@ -429,6 +460,9 @@ void Player::DrawGameObjects()
         level2Bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level2Bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level2Bushes["bottomBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
+        for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].DrawSprite(Color{ 255, 255, 255, 150 });
+        for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].DrawSprite(Color{ 255, 255, 255, 150 });
 
         break;
 
@@ -536,6 +570,9 @@ void Player::ResetCharacter()
 
     for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].ResetPuddle("Puddle" + std::to_string(i + 1));
     for (int i = 0; i < level1Branches.size(); i++) level1Branches[i].ResetBranch("Branch" + std::to_string(i + 1));
+
+    for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].ResetPuddle("Puddle2." + std::to_string(i + 1));
+    for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].ResetBranch("Branch2." + std::to_string(i + 1));
 }
 
 void Player::CheckForLevel1BushCollision()

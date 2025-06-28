@@ -65,10 +65,6 @@
 
     <!--Level 1 spritesheet with animations-->
 
-    821.713684, 901.193481
-    Player position: 631.421997, 1019.666077
-    Player position: 1000.189880, 1019.666077
-
     <Puddle1 spritePath = "res/sprites/Puddle.png" posX = "800.0f" posY = "600.0f" totalFramesX = "4" 
              scaleMultiplier = "5.0f">
     </Puddle1>
@@ -118,13 +114,38 @@
     <Bush2-5 spritePath = "res/world/Bush-2.5.png" posX = "0.0f" posY = "1536.0f" scaleMultiplier = "12.0f">
     </Bush2-5>
 
-    <Sprite1 spritePath = "res/.png" posX = "0.0f" posY = "0.0f">
-    </Sprite1>
+    <Branch2.1 spritePath = "res/sprites/Branch.png" posX = "132.0f" posY = "1390.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Branch2.1>
 
-    <Sprite2 spritePath = "res/.png" posX = "0.0f" posY = "0.0f">
-    </Sprite2>
-    
-  
-</GameObjectInfo>
+    <Branch2.2 spritePath = "res/sprites/Branch.png" posX = "362.0f" posY = "330.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Branch2.2>
+
+    <Branch2.3 spritePath = "res/sprites/Branch.png" posX = "714.0f" posY = "300.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Branch2.3>
+
+    <Puddle2.1 spritePath = "res/sprites/Puddle.png" posX = "134.0f" posY = "1100.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle2.1>
+
+    <Puddle2.2 spritePath = "res/sprites/Puddle.png" posX = "134.0f" posY = "824.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle2.2>
+
+    <Puddle2.3 spritePath = "res/sprites/Puddle.png" posX = "266.0f" posY = "567.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle2.3>
+
+    <Puddle2.4 spritePath = "res/sprites/Puddle.png" posX = "177.0f" posY = "331.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle2.4>
+
+    <Puddle2.5 spritePath = "res/sprites/Puddle.png" posX = "843.0f" posY = "193.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Puddle2.5>
+
+  </GameObjectInfo>
 
 </GameObject>
