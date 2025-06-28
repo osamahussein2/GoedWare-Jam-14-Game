@@ -93,7 +93,7 @@ private:
 	int levelNumber;
 
 	std::array<Puddle, 4> level1Puddles;
-	Branch branch;
+	std::array<Branch, 4> level1Branches;
 
 	GameObject stair;
 

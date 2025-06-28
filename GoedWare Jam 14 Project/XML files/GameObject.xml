@@ -88,7 +88,19 @@
     <Branch1 spritePath = "res/sprites/Branch.png" posX = "983.0f" posY = "754.0f" totalFramesX = "4"
              scaleMultiplier = "5.0f">
     </Branch1>
-    
+
+    <Branch2 spritePath = "res/sprites/Branch.png" posX = "657.0f" posY = "742.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Branch2>
+
+    <Branch3 spritePath = "res/sprites/Branch.png" posX = "453.0f" posY = "1013.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Branch3>
+
+    <Branch4 spritePath = "res/sprites/Branch.png" posX = "1209.0f" posY = "1013.0f" totalFramesX = "4"
+             scaleMultiplier = "5.0f">
+    </Branch4>
+
     <!--Level 2-->
 
     <Bush2-1 spritePath = "res/world/Bush-2.1.png" posX = "0.0f" posY = "0.0f" scaleMultiplier = "12.0f">
