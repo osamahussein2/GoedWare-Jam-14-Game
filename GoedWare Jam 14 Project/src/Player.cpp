@@ -93,6 +93,13 @@ void Player::InitializeCharacter()
     level2Bushes["topRightBushTile"].InitializeGameObject("Bush2-4");
     level2Bushes["bottomBushTile"].InitializeGameObject("Bush2-5");
 
+    level2Void["MiddleVoid"].InitializeGameObject("Void2-1");
+    level2Void["BottomVoid"].InitializeGameObject("Void2-2");
+    level2Void["TopLeftVoid"].InitializeGameObject("Void2-3");
+    level2Void["LeftVoid"].InitializeGameObject("Void2-4");
+    level2Void["TopRightVoid"].InitializeGameObject("Void2-5");
+    level2Void["RightVoid"].InitializeGameObject("Void2-6");
+
     timer.InitializeTimer();
 
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
@@ -416,6 +423,11 @@ void Player::UnloadCharacter()
         bushMaps2.second.UnloadSprite();
     }
 
+    for (std::pair<const std::string, GameObject>& voidMaps2 : level2Void)
+    {
+        voidMaps2.second.UnloadSprite();
+    }
+
     for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].UnloadSprite();
     for (int i = 0; i < level1Branches.size(); i++) level1Branches[i].UnloadSprite();
 
@@ -460,6 +472,13 @@ void Player::DrawGameObjects()
         level2Bushes["topLeftBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level2Bushes["topRightBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
         level2Bushes["bottomBushTile"].DrawSprite(Color{ 255, 255, 255, 150 });
+
+        level2Void["MiddleVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Void["BottomVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Void["TopLeftVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Void["LeftVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Void["TopRightVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
+        level2Void["RightVoid"].DrawSprite(Color{ 255, 255, 255, 150 });
 
         for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].DrawSprite(Color{ 255, 255, 255, 150 });
         for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].DrawSprite(Color{ 255, 255, 255, 150 });
@@ -693,7 +712,37 @@ void Player::CheckForLevel2BushCollision()
         position.x + rectangle.width >= level2Bushes["bottomBushTile"].GetPosition().x - 100.0f &&
         position.x <= level2Bushes["bottomBushTile"].GetPosition().x + level2Bushes["bottomBushTile"].GetRectangle().width &&
         position.y + rectangle.height >= level2Bushes["bottomBushTile"].GetPosition().y &&
-        position.y <= level2Bushes["bottomBushTile"].GetPosition().y + level2Bushes["bottomBushTile"].GetRectangle().height)
+        position.y <= level2Bushes["bottomBushTile"].GetPosition().y + level2Bushes["bottomBushTile"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= level2Void["MiddleVoid"].GetPosition().x &&
+        position.x <= level2Void["MiddleVoid"].GetPosition().x + level2Void["MiddleVoid"].GetRectangle().width &&
+        position.y + rectangle.height >= level2Void["MiddleVoid"].GetPosition().y &&
+        position.y <= level2Void["MiddleVoid"].GetPosition().y + level2Void["MiddleVoid"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= level2Void["BottomVoid"].GetPosition().x &&
+        position.x <= level2Void["BottomVoid"].GetPosition().x + level2Void["BottomVoid"].GetRectangle().width &&
+        position.y + rectangle.height >= level2Void["BottomVoid"].GetPosition().y &&
+        position.y <= level2Void["BottomVoid"].GetPosition().y + level2Void["BottomVoid"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= level2Void["TopLeftVoid"].GetPosition().x &&
+        position.x <= level2Void["TopLeftVoid"].GetPosition().x + level2Void["TopLeftVoid"].GetRectangle().width &&
+        position.y + rectangle.height >= level2Void["TopLeftVoid"].GetPosition().y &&
+        position.y <= level2Void["TopLeftVoid"].GetPosition().y + level2Void["TopLeftVoid"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= level2Void["LeftVoid"].GetPosition().x &&
+        position.x <= level2Void["LeftVoid"].GetPosition().x + level2Void["LeftVoid"].GetRectangle().width &&
+        position.y + rectangle.height >= level2Void["LeftVoid"].GetPosition().y &&
+        position.y <= level2Void["LeftVoid"].GetPosition().y + level2Void["LeftVoid"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= level2Void["TopRightVoid"].GetPosition().x &&
+        position.x <= level2Void["TopRightVoid"].GetPosition().x + level2Void["TopRightVoid"].GetRectangle().width &&
+        position.y + rectangle.height >= level2Void["TopRightVoid"].GetPosition().y &&
+        position.y <= level2Void["TopRightVoid"].GetPosition().y + level2Void["TopRightVoid"].GetRectangle().height
+        ||
+        position.x + rectangle.width >= level2Void["RightVoid"].GetPosition().x - 100.0f &&
+        position.x <= level2Void["RightVoid"].GetPosition().x + level2Void["RightVoid"].GetRectangle().width &&
+        position.y + rectangle.height >= level2Void["RightVoid"].GetPosition().y &&
+        position.y <= level2Void["RightVoid"].GetPosition().y + level2Void["RightVoid"].GetRectangle().height)
     {
         if (position != lastPosition) position = lastPosition;
         if (center != lastPosition) center = { lastPosition.x + 40.0f, lastPosition.y + 10.0f };
@@ -823,7 +872,37 @@ void Player::CheckForLevel2BushCollision(Vector2& position_, Vector2& lastPositi
         position_.x + rectangle_.width >= level2Bushes["bottomBushTile"].GetPosition().x - 100.0f &&
         position_.x <= level2Bushes["bottomBushTile"].GetPosition().x + level2Bushes["bottomBushTile"].GetRectangle().width &&
         position_.y + rectangle_.height >= level2Bushes["bottomBushTile"].GetPosition().y &&
-        position_.y <= level2Bushes["bottomBushTile"].GetPosition().y + level2Bushes["bottomBushTile"].GetRectangle().height)
+        position_.y <= level2Bushes["bottomBushTile"].GetPosition().y + level2Bushes["bottomBushTile"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Void["MiddleVoid"].GetPosition().x &&
+        position_.x <= level2Void["MiddleVoid"].GetPosition().x + level2Void["MiddleVoid"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Void["MiddleVoid"].GetPosition().y &&
+        position_.y <= level2Void["MiddleVoid"].GetPosition().y + level2Void["MiddleVoid"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Void["BottomVoid"].GetPosition().x &&
+        position_.x <= level2Void["BottomVoid"].GetPosition().x + level2Void["BottomVoid"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Void["BottomVoid"].GetPosition().y &&
+        position_.y <= level2Void["BottomVoid"].GetPosition().y + level2Void["BottomVoid"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Void["TopLeftVoid"].GetPosition().x &&
+        position_.x <= level2Void["TopLeftVoid"].GetPosition().x + level2Void["TopLeftVoid"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Void["TopLeftVoid"].GetPosition().y &&
+        position_.y <= level2Void["TopLeftVoid"].GetPosition().y + level2Void["TopLeftVoid"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Void["LeftVoid"].GetPosition().x &&
+        position_.x <= level2Void["LeftVoid"].GetPosition().x + level2Void["LeftVoid"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Void["LeftVoid"].GetPosition().y &&
+        position_.y <= level2Void["LeftVoid"].GetPosition().y + level2Void["LeftVoid"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Void["TopRightVoid"].GetPosition().x &&
+        position_.x <= level2Void["TopRightVoid"].GetPosition().x + level2Void["TopRightVoid"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Void["TopRightVoid"].GetPosition().y &&
+        position_.y <= level2Void["TopRightVoid"].GetPosition().y + level2Void["TopRightVoid"].GetRectangle().height
+        ||
+        position_.x + rectangle_.width >= level2Void["RightVoid"].GetPosition().x - 100.0f &&
+        position_.x <= level2Void["RightVoid"].GetPosition().x + level2Void["RightVoid"].GetRectangle().width &&
+        position_.y + rectangle_.height >= level2Void["RightVoid"].GetPosition().y &&
+        position_.y <= level2Void["RightVoid"].GetPosition().y + level2Void["RightVoid"].GetRectangle().height)
     {
         if (position_ != lastPosition_) position_ = lastPosition_;
     }

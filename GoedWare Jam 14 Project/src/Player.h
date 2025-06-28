@@ -87,6 +87,7 @@ private:
 	SoundAudio groundFootsteps[FOOTSTEPS_SIZE];
 
 	std::unordered_map<std::string, GameObject> level1Bushes, level2Bushes;
+	std::unordered_map<std::string, GameObject> level2Void;
 
 	Vector2 lastPosition;
 

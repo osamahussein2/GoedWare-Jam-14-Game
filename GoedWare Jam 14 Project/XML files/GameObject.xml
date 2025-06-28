@@ -114,6 +114,24 @@
     <Bush2-5 spritePath = "res/world/Bush-2.5.png" posX = "0.0f" posY = "1536.0f" scaleMultiplier = "12.0f">
     </Bush2-5>
 
+    <Void2-1 spritePath = "res/world/Void-2.1.png" posX = "264.0f" posY = "960.0f" scaleMultiplier = "12.0f">
+    </Void2-1>
+
+    <Void2-2 spritePath = "res/world/Void-2.2.png" posX = "456.0f" posY = "1344.0f" scaleMultiplier = "12.0f">
+    </Void2-2>
+
+    <Void2-3 spritePath = "res/world/Void-2.3.png" posX = "456.0f" posY = "576.0f" scaleMultiplier = "12.0f">
+    </Void2-3>
+
+    <Void2-4 spritePath = "res/world/Void-2.4.png" posX = "456.0f" posY = "768.0f" scaleMultiplier = "12.0f">
+    </Void2-4>
+
+    <Void2-5 spritePath = "res/world/Void-2.5.png" posX = "1032.0f" posY = "768.0f" scaleMultiplier = "12.0f">
+    </Void2-5>
+
+    <Void2-6 spritePath = "res/world/Void-2.6.png" posX = "1224.0f" posY = "960.0f" scaleMultiplier = "12.0f">
+    </Void2-6>
+
     <Branch2.1 spritePath = "res/sprites/Branch.png" posX = "132.0f" posY = "1390.0f" totalFramesX = "4"
              scaleMultiplier = "5.0f">
     </Branch2.1>
