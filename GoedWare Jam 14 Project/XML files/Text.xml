@@ -12,6 +12,9 @@
     <LevelCompleteText text = "That's it! Thanks for playing the demo!" textX = "100" textY = "350" fontSize = "40">
     </LevelCompleteText>
 
+    <NoiseText text = "Noise" textX = "10" textY = "25" fontSize = "25">
+    </NoiseText>
+
 </TextInfo>
 
 </Text>

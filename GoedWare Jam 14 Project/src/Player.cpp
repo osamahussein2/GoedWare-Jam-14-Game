@@ -104,6 +104,8 @@ void Player::InitializeCharacter()
 
     timer.InitializeTimer();
 
+    noiseText.InitializeText();
+
     for (int i = 0; i < FOOTSTEPS_SIZE; i++) groundFootsteps[i].InitializeSound("FootstepsGround" + std::to_string(i + 1));
 
     for (int i = 0; i < level1Puddles.size(); i++) level1Puddles[i].InitializeGameObject("Puddle" + std::to_string(i + 1));
@@ -511,6 +513,8 @@ void Player::DrawUI()
 
     noiseBars[fullTag].DrawSprite(Color{ 125, 125, 125, 255 });
     noiseBars[currentTag].DrawSprite(RED);
+
+    noiseText.RenderText("NoiseText", YELLOW);
 
     timer.RenderTimer(WHITE);
 }

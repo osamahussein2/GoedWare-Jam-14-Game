@@ -10,6 +10,7 @@
 #include "Puddle.h"
 #include "Branch.h"
 #include "LevelComplete.h"
+#include "Text.h"
 #include <array>
 
 constexpr int FOOTSTEPS_SIZE = 8;
@@ -107,6 +108,8 @@ private:
 	GameObject stair;
 
 	LevelComplete levelComplete;
+
+	Text noiseText;
 
 	// Private functions
 	void CheckForLevel1BushCollision();

@@ -4,10 +4,10 @@
 
   <BarInfo>
 
-    <FullNoiseBar posX = "10.0f" posY = "10.0f" recWidth = "200.0f" recHeight = "50.0f">
+    <FullNoiseBar posX = "100.0f" posY = "10.0f" recWidth = "200.0f" recHeight = "50.0f">
     </FullNoiseBar>
 
-    <CurrentNoiseBar posX = "10.0f" posY = "10.0f" recWidth = "0.0f" recHeight = "50.0f">
+    <CurrentNoiseBar posX = "100.0f" posY = "10.0f" recWidth = "0.0f" recHeight = "50.0f">
     </CurrentNoiseBar>
 
     <LevelCompleteTrigger posX = "685.0f" posY = "0.0f" recWidth = "320.0f" recHeight = "50.0f">
