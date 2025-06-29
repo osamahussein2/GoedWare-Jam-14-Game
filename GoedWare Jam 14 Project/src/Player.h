@@ -11,6 +11,7 @@
 #include "Branch.h"
 #include "LevelComplete.h"
 #include "Text.h"
+#include "Monster.h"
 #include <array>
 
 constexpr int FOOTSTEPS_SIZE = 8;
@@ -66,6 +67,8 @@ public:
 	void CheckForLevel1BushCollision(Vector2& position_, Vector2& lastPosition_, Rectangle& rectangle_);
 	void CheckForLevel2BushCollision(Vector2& position_, Vector2& lastPosition_, Rectangle& rectangle_);
 
+	bool CheckForGameObjectCollision(Vector2& position_, Rectangle& rectangle_);
+
 private:
 	Camera2D camera{};
 
@@ -112,6 +115,9 @@ private:
 	LevelComplete levelComplete;
 
 	Text noiseText;
+
+	std::array<Monster, 7> level1Monsters;
+	std::array<Monster, 5> level2Monsters;
 
 	// Private functions
 	void CheckForLevel1BushCollision();

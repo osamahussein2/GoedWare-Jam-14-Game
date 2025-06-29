@@ -115,6 +115,16 @@ void Player::InitializeCharacter()
 
     for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].InitializeGameObject("Puddle2." + std::to_string(i + 1));
     for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].InitializeGameObject("Branch2." + std::to_string(i + 1));
+
+    for (int i = 0; i < level1Monsters.size(); i++)
+    {
+        level1Monsters[i].InitializeCharacter("Monster" + std::to_string(i + 1));
+    }
+
+    for (int i = 0; i < level2Monsters.size(); i++)
+    {
+        level2Monsters[i].InitializeCharacter("Monster2." + std::to_string(i + 1));
+    }
 }
 
 void Player::BeginFollowPlayerCamera()
@@ -453,6 +463,9 @@ void Player::UnloadCharacter()
     stair.UnloadSprite();
 
     for (int i = 0; i < level1Graves.size(); i++) level1Graves[i].UnloadSprite();
+
+    for (int i = 0; i < level1Monsters.size(); i++) level1Monsters[i].UnloadCharacter();
+    for (int i = 0; i < level2Monsters.size(); i++) level2Monsters[i].UnloadCharacter();
 }
 
 void Player::DrawGameObjects()
@@ -484,6 +497,8 @@ void Player::DrawGameObjects()
 
         for (int i = 0; i < level1Graves.size(); i++) level1Graves[i].DrawSprite(Color{ 255, 255, 255, 150 });
 
+        for (int i = 0; i < level1Monsters.size(); i++) level1Monsters[i].DrawCharacter();
+
         break;
 
     case 2:
@@ -504,6 +519,8 @@ void Player::DrawGameObjects()
 
         for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].DrawSprite(Color{ 255, 255, 255, 150 });
         for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].DrawSprite(Color{ 255, 255, 255, 150 });
+
+        for (int i = 0; i < level2Monsters.size(); i++) level2Monsters[i].DrawCharacter();
 
         break;
 
@@ -627,6 +644,16 @@ void Player::ResetCharacter()
 
     for (int i = 0; i < level2Puddles.size(); i++) level2Puddles[i].ResetPuddle("Puddle2." + std::to_string(i + 1));
     for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].ResetBranch("Branch2." + std::to_string(i + 1));
+
+    for (int i = 0; i < level1Monsters.size(); i++)
+    {
+        level1Monsters[i].ResetCharacter("Monster" + std::to_string(i + 1));
+    }
+
+    for (int i = 0; i < level2Monsters.size(); i++)
+    {
+        level2Monsters[i].ResetCharacter("Monster2." + std::to_string(i + 1));
+    }
 }
 
 void Player::CheckForLevel1BushCollision()
@@ -946,4 +973,45 @@ void Player::CheckForLevel2BushCollision(Vector2& position_, Vector2& lastPositi
     {
         if (lastPosition_ != position_) lastPosition_ = position_;
     }
+}
+
+bool Player::CheckForGameObjectCollision(Vector2& position_, Rectangle& rectangle_)
+{
+    switch (levelNumber)
+    {
+    case 1:
+        for (int i = 0; i < level1Monsters.size(); i++)
+        {
+            if (level1Monsters[i].GetPosition().x + level1Monsters[i].GetRectangle().width >= position_.x &&
+                level1Monsters[i].GetPosition().x <= position_.x + rectangle_.width &&
+                level1Monsters[i].GetPosition().y + level1Monsters[i].GetRectangle().height >= position_.y &&
+                level1Monsters[i].GetPosition().y <= position_.y + rectangle_.height)
+            {
+                return true;
+            }
+        }
+
+        return false;
+        break;
+
+    case 2:
+        for (int i = 0; i < level2Monsters.size(); i++)
+        {
+            if (level2Monsters[i].GetPosition().x + level2Monsters[i].GetRectangle().width >= position_.x &&
+                level2Monsters[i].GetPosition().x <= position_.x + rectangle_.width &&
+                level2Monsters[i].GetPosition().y + level2Monsters[i].GetRectangle().height >= position_.y &&
+                level2Monsters[i].GetPosition().y <= position_.y + rectangle_.height)
+            {
+                return true;
+            }
+        }
+
+        return false;
+        break;
+
+    default:
+        break;
+    }
+
+    return false;
 }

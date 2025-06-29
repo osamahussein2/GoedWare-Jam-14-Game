@@ -71,7 +71,8 @@ void Puddle::DrawSprite(Color color_)
     if (Player::Instance()->GetPosition().x + Player::Instance()->GetRectangle().width >= position.x &&
         Player::Instance()->GetPosition().x <= position.x + rectangle.width &&
         Player::Instance()->GetPosition().y + Player::Instance()->GetRectangle().height >= position.y &&
-        Player::Instance()->GetPosition().y <= position.y + rectangle.height && !playerSteppedOnPuddle)
+        Player::Instance()->GetPosition().y <= position.y + rectangle.height && !playerSteppedOnPuddle ||
+        Player::Instance()->CheckForGameObjectCollision(position, rectangle) && !playerSteppedOnPuddle)
     {
         playerSteppedOnPuddle = true;
     }

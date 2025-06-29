@@ -24,6 +24,9 @@ public:
 	virtual void ResetCharacter() {}
 	virtual void ResetCharacter(std::string childNode2_);
 
+	Vector2 GetPosition() { return position; }
+	Rectangle GetRectangle() { return rectangle; }
+
 private:
 	float updateTime;
 
