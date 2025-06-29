@@ -60,6 +60,12 @@
     <Bush16 spritePath = "res/world/Bush-16.png" posX = "1344.0f" posY = "1536.0f" scaleMultiplier = "12.0f">
     </Bush16>
 
+    <Grave1 spritePath = "res/world/Grave.png" posX = "605.0f" posY = "228.0f" scaleMultiplier = "6.0f">
+    </Grave1>
+
+    <Grave2 spritePath = "res/world/Grave.png" posX = "1025.0f" posY = "228.0f" scaleMultiplier = "6.0f">
+    </Grave2>
+
     <Stair spritePath = "res/sprites/Stair.png" posX = "808.0f" posY = "1150.0f" scaleMultiplier = "6.0f">
     </Stair>
 

@@ -107,6 +107,8 @@ private:
 
 	GameObject stair;
 
+	std::array<GameObject, 2> level1Graves;
+
 	LevelComplete levelComplete;
 
 	Text noiseText;

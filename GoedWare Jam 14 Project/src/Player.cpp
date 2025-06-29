@@ -85,6 +85,8 @@ void Player::InitializeCharacter()
     level1Bushes["topBottomLeftBlockTile"].InitializeGameObject("Bush15");
     level1Bushes["topBottomRightBlockTile"].InitializeGameObject("Bush16");
 
+    for (int i = 0; i < level1Graves.size(); i++) level1Graves[i].InitializeGameObject("Grave" + std::to_string(i + 1));
+
     stair.InitializeGameObject("Stair");
 
     level2Bushes["leftBushTile"].InitializeGameObject("Bush2-1");
@@ -449,6 +451,8 @@ void Player::UnloadCharacter()
     for (int i = 0; i < level2Branches.size(); i++) level2Branches[i].UnloadSprite();
 
     stair.UnloadSprite();
+
+    for (int i = 0; i < level1Graves.size(); i++) level1Graves[i].UnloadSprite();
 }
 
 void Player::DrawGameObjects()
@@ -477,6 +481,8 @@ void Player::DrawGameObjects()
         for (int i = 0; i < level1Branches.size(); i++) level1Branches[i].DrawSprite(Color{255, 255, 255, 150});
 
         stair.DrawSprite(Color{ 255, 255, 255, 150 });
+
+        for (int i = 0; i < level1Graves.size(); i++) level1Graves[i].DrawSprite(Color{ 255, 255, 255, 150 });
 
         break;
 
